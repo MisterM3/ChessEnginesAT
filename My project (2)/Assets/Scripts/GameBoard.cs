@@ -28,4 +28,17 @@ public class GameBoard : MonoBehaviour
     {
         chessBoardPositions[gridPosition.x, gridPosition.y] = piece;
     }
+
+    public bool TryGetPieceAtLocation(Vector2Int gridPosition, out Pieces piece )
+    {
+        if (IsPieceAtLocation(gridPosition))
+        {
+            piece = chessBoardPositions[gridPosition.x, gridPosition.y];
+            return true;
+        }
+
+        piece = null;
+        return false;
+    }
+    
 }

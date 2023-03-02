@@ -12,6 +12,8 @@ public abstract class Pieces : MonoBehaviour
     //Max Amount of spaces move (8 except king, knight and pawn)
     protected int maxMoveAmount = 8;
 
+    public Vector2Int gridPosition;
+
 
 
     public void Awake()
@@ -48,5 +50,12 @@ public abstract class Pieces : MonoBehaviour
         return movePositions;
     }
 
-    
+
+    public void SetGridPosition(Vector2Int newPosition)
+    {
+        gridPosition = newPosition;
+        this.gameObject.transform.position = new Vector3(newPosition.x, 0, newPosition.y);
+    }
+
+
 }

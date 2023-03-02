@@ -54,7 +54,7 @@ public class ChessBoardVisual : MonoBehaviour
     }
 
 
-    void DeActivateAllMoveVisual()
+    public void DeActivateAllMoveVisual()
     {
         foreach (GameObject visual in MoveAbleSpacesVisuals) visual.SetActive(false);
     }
