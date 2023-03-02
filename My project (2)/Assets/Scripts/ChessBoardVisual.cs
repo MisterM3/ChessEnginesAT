@@ -12,12 +12,19 @@ public class ChessBoardVisual : MonoBehaviour
     [SerializeField] GameObject BlackSpacePrefab;
     [SerializeField] GameObject parentBoardVisual;
 
+    [SerializeField] GameObject moveAblePrefab;
+
     GameObject[,] piecesVisuals;
+
+    GameObject[,] MoveAbleSpacesVisuals;
 
     // Start is called before the first frame update
     void Start()
     {
-        for(int x = 0; x < GameBoard.SIZE; x++)
+
+        MoveAbleSpacesVisuals = new GameObject[GameBoard.SIZE, GameBoard.SIZE];
+
+        for (int x = 0; x < GameBoard.SIZE; x++)
         {
             for (int y = 0; y < GameBoard.SIZE; y++)
             {
@@ -29,8 +36,15 @@ public class ChessBoardVisual : MonoBehaviour
                 }
                 else Instantiate(WhiteSpacePrefab,position, Quaternion.identity, parentBoardVisual.transform);
 
+                GameObject moveAbleVisual = Instantiate(moveAblePrefab, position, Quaternion.identity, parentBoardVisual.transform);
+
+                MoveAbleSpacesVisuals[x, y] = moveAbleVisual;
+
+
             }
         }
+
+        DeActivateAllMoveVisual();
     }
 
     // Update is called once per frame
@@ -38,4 +52,32 @@ public class ChessBoardVisual : MonoBehaviour
     {
         
     }
+
+
+    void DeActivateAllMoveVisual()
+    {
+        foreach (GameObject visual in MoveAbleSpacesVisuals) visual.SetActive(false);
+    }
+
+    public void ActivateMoveVisuals(List<Vector2Int> positions)
+    {
+
+        DeActivateAllMoveVisual();
+
+        foreach (Vector2Int position in positions)
+        {
+            try
+            {
+                MoveAbleSpacesVisuals[position.x, position.y].SetActive(true);
+
+            }
+            catch (System.Exception e)
+            {
+
+            }
+        }
+    }
+
+
+
 }

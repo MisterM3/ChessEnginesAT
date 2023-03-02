@@ -22,4 +22,10 @@ public class GameBoard : MonoBehaviour
     {
         return chessBoardPositions[gridPosition.x, gridPosition.y] != null;
     }
+
+
+    public void SetPieceAtLocation(Vector2Int gridPosition, Pieces piece)
+    {
+        chessBoardPositions[gridPosition.x, gridPosition.y] = piece;
+    }
 }
