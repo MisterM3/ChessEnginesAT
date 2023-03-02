@@ -52,6 +52,7 @@ public class MovePieces : MonoBehaviour
             {
                 if (position == mousePosition)
                 {
+                    board.SetPieceAtLocation(activePiece.gridPosition, null);
                     activePiece.SetGridPosition(position);
                     board.SetPieceAtLocation(position, activePiece);
                     Debug.Log("true2");

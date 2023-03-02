@@ -13,11 +13,10 @@ public class Bishop : Pieces
     void Start()
     {
 
-        gridPosition = new Vector2Int(4, 4);
-
+        GameBoard.Instance.SetPieceAtLocation(gridPosition, this);
         chess = GameObject.FindObjectOfType<ChessBoardVisual>();
 
-        GameObject.FindObjectOfType<GameBoard>().SetPieceAtLocation(gridPosition, this);
+        
         moveDirections.Add(new Vector2Int(-1, -1));
         moveDirections.Add(new Vector2Int(1, 1));
         moveDirections.Add(new Vector2Int(1, -1));

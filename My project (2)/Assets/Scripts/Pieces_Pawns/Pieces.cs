@@ -14,6 +14,8 @@ public abstract class Pieces : MonoBehaviour
 
     public Vector2Int gridPosition;
 
+    public bool isWhite = false;
+
 
 
     public void Awake()
@@ -37,13 +39,23 @@ public abstract class Pieces : MonoBehaviour
             for(int i = 1; i < maxMoveAmount; i++)
             {
                 Vector2Int nextGridPoint = new Vector2Int(gridPoint.x + (i * direction.x), gridPoint.y + (i * direction.y));
-                movePositions.Add(nextGridPoint);
+                
 
-                //Test if a piece is on the grid (last point)
-                if (false)
+                try
                 {
-                    break;
+                    //Test if a piece is on the grid (last point)
+                    if (GameBoard.Instance.IsPieceAtLocation(nextGridPoint))
+                    {
+                        break;
+                    }
+
                 }
+                catch(System.Exception e)
+                {
+
+                }
+
+                movePositions.Add(nextGridPoint);
             }
         }
 
