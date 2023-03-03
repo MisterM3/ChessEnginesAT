@@ -33,6 +33,16 @@ public class GameBoard : MonoBehaviour
         return chessBoardPositions[gridPosition.x, gridPosition.y] != null;
     }
 
+    public bool IsSameSidePieceAtLocation(Vector2Int gridPosition, bool isWhite)
+    {
+        return chessBoardPositions[gridPosition.x, gridPosition.y].isWhite == isWhite;
+    }
+
+    public bool IsOtherSidePieceAtLocation(Vector2Int gridPosition, bool isWhite)
+    {
+        return chessBoardPositions[gridPosition.x, gridPosition.y].isWhite != isWhite;
+    }
+
     public bool IsPieceAtLocation(Vector2Int gridPosition, out bool isWhite)
     {
         Pieces piece = chessBoardPositions[gridPosition.x, gridPosition.y];
@@ -50,6 +60,13 @@ public class GameBoard : MonoBehaviour
 
     public void SetPieceAtLocation(Vector2Int gridPosition, Pieces piece)
     {
+        if (piece != null)
+        {
+            Pieces oldPiece = chessBoardPositions[gridPosition.x, gridPosition.y];
+
+            if (oldPiece != null) Destroy(oldPiece.gameObject);
+        }
+
         chessBoardPositions[gridPosition.x, gridPosition.y] = piece;
     }
 

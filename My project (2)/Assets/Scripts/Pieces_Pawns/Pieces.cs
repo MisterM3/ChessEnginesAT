@@ -39,12 +39,12 @@ public abstract class Pieces : MonoBehaviour
             for(int i = 1; i < maxMoveAmount; i++)
             {
                 Vector2Int nextGridPoint = new Vector2Int(gridPoint.x + (i * direction.x), gridPoint.y + (i * direction.y));
-                
 
+                
                 try
                 {
                     //Test if a piece is on the grid (last point)
-                    if (GameBoard.Instance.IsPieceAtLocation(nextGridPoint))
+                    if (GameBoard.Instance.IsSameSidePieceAtLocation(nextGridPoint, isWhite))
                     {
                         break;
                     }
@@ -56,6 +56,20 @@ public abstract class Pieces : MonoBehaviour
                 }
 
                 movePositions.Add(nextGridPoint);
+
+                try
+                {
+                    //Test if a piece is on the grid (last point)
+                    if (GameBoard.Instance.IsOtherSidePieceAtLocation(nextGridPoint, isWhite))
+                    {
+                        break;
+                    }
+
+                }
+                catch (System.Exception e)
+                {
+
+                }
             }
         }
 
