@@ -36,7 +36,7 @@ public abstract class Pieces : MonoBehaviour
         
         foreach(Vector2Int direction in moveDirections)
         {
-            for(int i = 1; i < maxMoveAmount; i++)
+            for(int i = 1; i < maxMoveAmount + 1; i++)
             {
                 Vector2Int nextGridPoint = new Vector2Int(gridPoint.x + (i * direction.x), gridPoint.y + (i * direction.y));
 
