@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 6763079924566301258, guid: 7adf8f7c9b5b4a142867a6346131a422,
         type: 3}
       propertyPath: m_Name
-      value: BlackHorse
+      value: BlackHorse Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7adf8f7c9b5b4a142867a6346131a422, type: 3}
@@ -94,4 +94,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
-  isWhite: 1
+  isWhite: 0

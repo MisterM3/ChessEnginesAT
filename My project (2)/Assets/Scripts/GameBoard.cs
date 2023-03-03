@@ -40,6 +40,8 @@ public class GameBoard : MonoBehaviour
 
     public bool IsOtherSidePieceAtLocation(Vector2Int gridPosition, bool isWhite)
     {
+        if (chessBoardPositions[gridPosition.x, gridPosition.y] == null) return false;
+
         return chessBoardPositions[gridPosition.x, gridPosition.y].isWhite != isWhite;
     }
 

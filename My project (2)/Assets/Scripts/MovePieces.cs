@@ -59,8 +59,12 @@ public class MovePieces : MonoBehaviour
                     visual.DeActivateAllMoveVisual();
 
                     activePiece = null;
+
+                    return;
                 }
             }
+            visual.DeActivateAllMoveVisual();
+            activePiece = null;
         }
 
 

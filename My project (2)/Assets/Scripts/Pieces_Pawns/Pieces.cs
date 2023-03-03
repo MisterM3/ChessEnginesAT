@@ -77,7 +77,7 @@ public abstract class Pieces : MonoBehaviour
     }
 
 
-    public void SetGridPosition(Vector2Int newPosition)
+    public virtual void SetGridPosition(Vector2Int newPosition)
     {
         gridPosition = newPosition;
         this.gameObject.transform.position = new Vector3(newPosition.x, 0, newPosition.y);
