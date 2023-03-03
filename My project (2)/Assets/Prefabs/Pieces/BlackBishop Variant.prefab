@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 6763079924566301258, guid: 7adf8f7c9b5b4a142867a6346131a422,
         type: 3}
       propertyPath: m_Name
-      value: BlackBishop
+      value: BlackBishop Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7adf8f7c9b5b4a142867a6346131a422, type: 3}

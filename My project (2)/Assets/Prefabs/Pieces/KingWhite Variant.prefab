@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7964108061287428210
+--- !u!1001 &2566635401376205242
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 544db1ddf2ec7254abc50c54612ca690,
+      objectReference: {fileID: 21300000, guid: 0408affe8341f1e49b17f44fcb168765,
         type: 3}
     - target: {fileID: 6763079924566301257, guid: 7adf8f7c9b5b4a142867a6346131a422,
         type: 3}
@@ -71,27 +71,27 @@ PrefabInstance:
     - target: {fileID: 6763079924566301258, guid: 7adf8f7c9b5b4a142867a6346131a422,
         type: 3}
       propertyPath: m_Name
-      value: BlackRook Variant
+      value: KingWhite Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7adf8f7c9b5b4a142867a6346131a422, type: 3}
---- !u!1 &3701250043211491896 stripped
+--- !u!1 &9098903023167542256 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6763079924566301258, guid: 7adf8f7c9b5b4a142867a6346131a422,
     type: 3}
-  m_PrefabInstance: {fileID: 7964108061287428210}
+  m_PrefabInstance: {fileID: 2566635401376205242}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1725226810
+--- !u!114 &1080412577
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3701250043211491896}
+  m_GameObject: {fileID: 9098903023167542256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a19ed05a143703478b9b5cbb79ea83b, type: 3}
+  m_Script: {fileID: 11500000, guid: 4816a7c8b27ccfa4b8d5f4d3122a8927, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gridPosition: {x: 0, y: 0}
-  isWhite: 0
+  isWhite: 1
