@@ -40,7 +40,11 @@ public abstract class Pieces : MonoBehaviour
             {
                 Vector2Int nextGridPoint = new Vector2Int(gridPoint.x + (i * direction.x), gridPoint.y + (i * direction.y));
 
-                
+                if (gridPoint.x + (i * direction.x) > 7) continue;
+                if (gridPoint.y + (i * direction.y) > 7) continue;
+                if (gridPoint.x + (i * direction.x) < 0) continue;
+                if (gridPoint.y + (i * direction.y) < 0) continue;
+
                 try
                 {
                     //Test if a piece is on the grid (last point)
@@ -49,6 +53,7 @@ public abstract class Pieces : MonoBehaviour
                         break;
                     }
 
+
                 }
                 catch(System.Exception e)
                 {
@@ -56,6 +61,8 @@ public abstract class Pieces : MonoBehaviour
                 }
 
                 movePositions.Add(nextGridPoint);
+
+
 
                 try
                 {

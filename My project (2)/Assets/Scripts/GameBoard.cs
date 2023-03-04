@@ -7,7 +7,7 @@ public class GameBoard : MonoBehaviour
 
     public static GameBoard Instance { get; private set; }
 
-    Pieces[,] chessBoardPositions;
+    public Pieces[,] chessBoardPositions;
 
     //A chessBoard is 8 by 8
     public const int SIZE = 8;
@@ -75,6 +75,18 @@ public class GameBoard : MonoBehaviour
     public bool TryGetPieceAtLocation(Vector2Int gridPosition, out Pieces piece )
     {
         if (IsPieceAtLocation(gridPosition))
+        {
+            piece = chessBoardPositions[gridPosition.x, gridPosition.y];
+            return true;
+        }
+
+        piece = null;
+        return false;
+    }
+
+    public bool TryGetSamePieceAtLocation(Vector2Int gridPosition, bool isWhite, out Pieces piece)
+    {
+        if (IsSameSidePieceAtLocation(gridPosition, isWhite))
         {
             piece = chessBoardPositions[gridPosition.x, gridPosition.y];
             return true;

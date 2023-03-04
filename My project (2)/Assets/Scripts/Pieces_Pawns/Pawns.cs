@@ -28,6 +28,7 @@ public class Pawns : Pieces
 
 
 
+
         List<Vector2Int> movePositions = new List<Vector2Int>();
 
         try
@@ -36,12 +37,14 @@ public class Pawns : Pieces
             //FirstMoveDouble
             if (notMoved && !GameBoard.Instance.IsPieceAtLocation(gridPosition + moveDirections[0] * 2))
             {
+                
                 movePositions.Add(gridPosition + moveDirections[0] * 2);
             }
 
             //Top
             if (!GameBoard.Instance.IsPieceAtLocation(gridPosition + moveDirections[0]))
             {
+            
                 movePositions.Add(gridPosition + moveDirections[0]);
             }
 
