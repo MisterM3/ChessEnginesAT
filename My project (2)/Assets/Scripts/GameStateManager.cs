@@ -32,9 +32,21 @@ public class GameStateManager : MonoBehaviour
 
     }
 
+
+    public float timer = 1.0f;
+    public float cooldown = 0.0f;
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E)) NextTurn();
+        //  if (cooldown < 0)
+        //  {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            MakeTurn();
+        }
+        //    cooldown = timer;
+       //}
+        //cooldown -= Time.deltaTime;
     }
 
 
@@ -48,8 +60,7 @@ public class GameStateManager : MonoBehaviour
     {
         isWhiteTurn = !isWhiteTurn;
         turn++;
-        if (isWhiteTurn) whitePlayer.MovePiece();
-        else blackPlayer.MovePiece();
+
     }
 
     public void MakeTurn()

@@ -12,6 +12,7 @@ public abstract class AbstractAIPlayer : AbstractPlayer
 
     protected List<Pieces> bestPieceToMove;
 
+    [SerializeField] protected int depth = 1;
     public void Awake()
     {
         bestGridPosition = new List<Vector2Int>();
@@ -19,10 +20,9 @@ public abstract class AbstractAIPlayer : AbstractPlayer
     }
 
 
-    protected int depth;
 
     //Looks horrendious remake if possible
-    public abstract int SearchingMethod(Pieces[,] boardState, int depth);
+    public abstract int SearchingMethod(Pieces[,] boardState, int depth, bool WhiteMove);
 
     public abstract int EvaluateBoard(Pieces[,] boardState);
 

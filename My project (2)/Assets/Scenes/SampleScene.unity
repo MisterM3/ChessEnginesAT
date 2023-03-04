@@ -279,6 +279,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlackPawn (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 4414497699178582290, guid: d4895bd87a476d045bee34dd1b370d7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4895bd87a476d045bee34dd1b370d7f, type: 3}
 --- !u!4 &67747579 stripped
@@ -357,6 +362,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlackPawn (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4414497699178582290, guid: d4895bd87a476d045bee34dd1b370d7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4895bd87a476d045bee34dd1b370d7f, type: 3}
@@ -924,6 +934,8 @@ MonoBehaviour:
   turn: 0
   whitePlayer: {fileID: 1227054047}
   blackPlayer: {fileID: 977481155}
+  timer: 1
+  cooldown: 0
 --- !u!4 &463069225
 Transform:
   m_ObjectHideFlags: 0
@@ -1088,6 +1100,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlackPawn (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 4414497699178582290, guid: d4895bd87a476d045bee34dd1b370d7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4895bd87a476d045bee34dd1b370d7f, type: 3}
 --- !u!4 &559467244 stripped
@@ -1111,6 +1128,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WhitePawn (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148315340230954657, guid: 67d138ae4f0e0354587c385b49db7aff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9148315340230954658, guid: 67d138ae4f0e0354587c385b49db7aff,
         type: 3}
@@ -1197,6 +1219,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WhitePawn (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 9148315340230954657, guid: 67d138ae4f0e0354587c385b49db7aff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9148315340230954658, guid: 67d138ae4f0e0354587c385b49db7aff,
         type: 3}
       propertyPath: m_RootOrder
@@ -1275,6 +1302,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WhitePawn (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148315340230954657, guid: 67d138ae4f0e0354587c385b49db7aff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9148315340230954658, guid: 67d138ae4f0e0354587c385b49db7aff,
         type: 3}
@@ -1587,6 +1619,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WhitePawn (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 9148315340230954657, guid: 67d138ae4f0e0354587c385b49db7aff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9148315340230954658, guid: 67d138ae4f0e0354587c385b49db7aff,
         type: 3}
       propertyPath: m_RootOrder
@@ -1680,6 +1717,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   evaluationMethodStragety: 0
+  depth: 2
   isWhite: 0
 --- !u!4 &977481156
 Transform:
@@ -1711,6 +1749,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WhitePawn (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148315340230954657, guid: 67d138ae4f0e0354587c385b49db7aff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9148315340230954658, guid: 67d138ae4f0e0354587c385b49db7aff,
         type: 3}
@@ -1947,6 +1990,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlackPawn (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 4414497699178582290, guid: d4895bd87a476d045bee34dd1b370d7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4895bd87a476d045bee34dd1b370d7f, type: 3}
 --- !u!4 &1101376901 stripped
@@ -2059,6 +2107,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: WhitePawn (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 9148315340230954657, guid: 67d138ae4f0e0354587c385b49db7aff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9148315340230954658, guid: 67d138ae4f0e0354587c385b49db7aff,
         type: 3}
@@ -2283,6 +2336,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   evaluationMethodStragety: 0
+  depth: 2
   isWhite: 1
 --- !u!4 &1227054048
 Transform:
@@ -2408,6 +2462,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlackPawn (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4414497699178582290, guid: d4895bd87a476d045bee34dd1b370d7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4895bd87a476d045bee34dd1b370d7f, type: 3}
@@ -2595,6 +2654,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WhitePawn (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 9148315340230954657, guid: 67d138ae4f0e0354587c385b49db7aff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9148315340230954658, guid: 67d138ae4f0e0354587c385b49db7aff,
         type: 3}
       propertyPath: m_RootOrder
@@ -2774,6 +2838,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: BlackPawn (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 4414497699178582290, guid: d4895bd87a476d045bee34dd1b370d7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4895bd87a476d045bee34dd1b370d7f, type: 3}
 --- !u!4 &1667317744 stripped
@@ -2889,6 +2958,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BlackPawn (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4414497699178582290, guid: d4895bd87a476d045bee34dd1b370d7f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4895bd87a476d045bee34dd1b370d7f, type: 3}

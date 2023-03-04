@@ -6,24 +6,27 @@ public class MiniMaxAI : AbstractAIPlayer
 {
 
     [SerializeField] protected bool isWhite = false;
+
     public override int EvaluateBoard(Pieces[,] boardState)
     {
         return 1;
     }
 
-
+    int amount = 0;
 
 
     public override void MovePiece()
     {
+        amount = 0;
+ 
         bestPieceToMove.Clear();
         bestGridPosition.Clear();
 
-        int number = SearchingMethod(GameBoard.Instance.chessBoardPositions, 1);
+        int number = SearchingMethod(GameBoard.Instance.chessBoardPositions, depth, isWhite);
 
         int random = Random.Range(0, bestPieceToMove.Count);
 
-        Debug.Log(bestPieceToMove.Count);
+        Debug.Log(amount);
         GameBoard.Instance.SetPieceAtLocation(bestPieceToMove[random].gridPosition, null);
         bestPieceToMove[random].SetGridPosition(bestGridPosition[random]);
         GameBoard.Instance.SetPieceAtLocation(bestGridPosition[random], bestPieceToMove[random]);
@@ -31,22 +34,27 @@ public class MiniMaxAI : AbstractAIPlayer
         GameStateManager.Instance.NextTurn();
     }
 
-    public override int SearchingMethod(Pieces[,] boardState, int depth)
+    public override int SearchingMethod(Pieces[,] boardState, int pDepth, bool whiteMove)
     {
+
 
         int finalScore = 0;
 
         foreach (Pieces piece in boardState)
         {
-
+            
             if (piece == null) continue;
             //Evaluate when depth has been reached
-            if (depth <= 0) return 0;
+            if (pDepth <= 0)
+            {
+                amount++;
+                return 1;
+            }
 
             List<Vector2Int> moves = new();
 
-            int i = 0;
-            if (piece.isWhite == isWhite)
+            int i = 1;
+            if (piece.isWhite == whiteMove)
             {
                 moves = piece.MoveLocations(piece.gridPosition);
 
@@ -58,28 +66,36 @@ public class MiniMaxAI : AbstractAIPlayer
                 foreach(Vector2Int move in moves)
                 {
                     Pieces[,] newBoardState = boardState.Clone() as Pieces[,];
-                    
 
+                   
                     //Puts the old position to null;
                     newBoardState[piece.gridPosition.x, piece.gridPosition.y] = null;
                     newBoardState[move.x, move.y] = piece;
 
-                    int score = SearchingMethod(newBoardState, depth - 1);
 
-                    if (score > i)
+                   
+                    
+
+                    int score = SearchingMethod(newBoardState, pDepth - 1, !whiteMove);
+                    finalScore = score;
+                    if (pDepth == depth)
                     {
-                        score = i;
-                        bestGridPosition.Clear();
-                        bestPieceToMove.Clear();
+                        //Change so only top part can add to best move
+                        if (score > i)
+                        {
+                            i = score;
+                            bestGridPosition.Clear();
+                            bestPieceToMove.Clear();
 
-                        bestGridPosition.Add(move);
-                        bestPieceToMove.Add(piece);
-                    }
+                            bestGridPosition.Add(move);
+                            bestPieceToMove.Add(piece);
+                        }
 
-                    if (score == 0)
-                    {
-                        bestGridPosition.Add(move);
-                        bestPieceToMove.Add(piece);
+                        if (score == i)
+                        {
+                            bestGridPosition.Add(move);
+                            bestPieceToMove.Add(piece);
+                        }
                     }
                 }
             }
