@@ -35,7 +35,7 @@ public class Pawns : Pieces
         {
 
             //FirstMoveDouble
-            if (notMoved && !GameBoard.Instance.IsPieceAtLocation(gridPosition + moveDirections[0] * 2) && !GameBoard.Instance.IsPieceAtLocation(gridPosition + moveDirections[0] * 2))
+            if (notMoved && !GameBoard.Instance.IsPieceAtLocation(gridPosition + moveDirections[0] * 2) && !GameBoard.Instance.IsPieceAtLocation(gridPosition + moveDirections[0]))
             {
                 
                 movePositions.Add(gridPosition + moveDirections[0] * 2);
@@ -59,7 +59,6 @@ public class Pawns : Pieces
             if (GameBoard.Instance.IsOtherSidePieceAtLocation(gridPosition + moveDirections[0] + new Vector2Int(1, 0), isWhite))
             {
                 movePositions.Add(gridPosition + moveDirections[0] + new Vector2Int(1, 0));
-                faef
 
             }
 

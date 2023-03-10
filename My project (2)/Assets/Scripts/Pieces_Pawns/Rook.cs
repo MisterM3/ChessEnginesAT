@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Rook : Pieces
 {
+
+    public bool hasMoved = false;
+
     // Start is called before the first frame update
     void Start()
     {

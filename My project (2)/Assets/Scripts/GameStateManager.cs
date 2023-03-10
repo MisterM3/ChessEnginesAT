@@ -40,8 +40,8 @@ public class GameStateManager : MonoBehaviour
     {
         //  if (cooldown < 0)
         //  {
-        if (Input.GetKeyDown(KeyCode.T))
-        {
+         if (Input.GetKeyDown(KeyCode.T))
+        {  
             MakeTurn();
         }
         //    cooldown = timer;
