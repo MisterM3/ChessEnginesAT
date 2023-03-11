@@ -49,6 +49,29 @@ public class GameStateManager : MonoBehaviour
         //cooldown -= Time.deltaTime;
     }
 
+    public bool InCheck(Pieces[,] board, Vector2Int GridPosition, bool isWhite)
+    {
+
+        foreach (Pieces isKing in board)
+        {
+            if (isKing is King && isKing.isWhite == isWhite)
+            {
+                King king = (King)isKing;
+
+                return king.InCheck();
+            }
+        }
+
+        Debug.LogError("I hate this");
+       return false;
+
+    }
+
+    public King getKing(bool isWhite)
+    {
+        if (isWhite) return whiteKing;
+        else return blackKing;
+    }
 
 
     public bool IsWhiteTurn()

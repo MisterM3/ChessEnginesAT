@@ -28,6 +28,8 @@ public class GameBoard : MonoBehaviour
     }
 
 
+
+
     public bool IsPieceAtLocation(Vector2Int gridPosition)
     {
         return chessBoardPositions[gridPosition.x, gridPosition.y] != null;
@@ -60,13 +62,13 @@ public class GameBoard : MonoBehaviour
     }
 
 
-    public void SetPieceAtLocation(Vector2Int gridPosition, Pieces piece)
+    public void SetPieceAtLocation(Vector2Int gridPosition, Pieces piece, bool destroy = true)
     {
         if (piece != null)
         {
             Pieces oldPiece = chessBoardPositions[gridPosition.x, gridPosition.y];
 
-            if (oldPiece != null) Destroy(oldPiece.gameObject);
+            if (oldPiece != null && destroy) Destroy(oldPiece.gameObject);
         }
 
         chessBoardPositions[gridPosition.x, gridPosition.y] = piece;
@@ -86,7 +88,27 @@ public class GameBoard : MonoBehaviour
 
     public bool TryGetSamePieceAtLocation(Vector2Int gridPosition, bool isWhite, out Pieces piece)
     {
-        if (IsSameSidePieceAtLocation(gridPosition, isWhite))
+        try
+        {
+            if (IsSameSidePieceAtLocation(gridPosition, isWhite))
+            {
+                piece = chessBoardPositions[gridPosition.x, gridPosition.y];
+                return true;
+            }
+        }
+        catch(System.Exception e)
+        {
+            piece = null;
+            return false;
+        }
+
+        piece = null;
+        return false;
+    }
+
+    public bool TryGetOtherPieceAtLocation(Vector2Int gridPosition, bool isWhite, out Pieces piece)
+    {
+        if (IsOtherSidePieceAtLocation(gridPosition, isWhite))
         {
             piece = chessBoardPositions[gridPosition.x, gridPosition.y];
             return true;
@@ -95,5 +117,5 @@ public class GameBoard : MonoBehaviour
         piece = null;
         return false;
     }
-    
+
 }

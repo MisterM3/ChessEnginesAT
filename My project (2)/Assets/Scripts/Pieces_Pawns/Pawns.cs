@@ -20,7 +20,7 @@ public class Pawns : Pieces
         
     }
 
-    public override List<Vector2Int> MoveLocations(Vector2Int gridPoint)
+    public override List<Vector2Int> GetPseudoLegalMoves(Vector2Int gridPoint)
     {
 
         if (isWhite) moveDirections.Add(new Vector2Int(0, 1));

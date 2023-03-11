@@ -23,7 +23,7 @@ public abstract class Pieces : MonoBehaviour
         moveDirections = new List<Vector2Int>();
     }
 
-    public virtual List<Vector2Int> MoveLocations(Vector2Int gridPoint)
+    public virtual List<Vector2Int> GetPseudoLegalMoves(Vector2Int gridPoint)
     {
         List<Vector2Int> movePositions = new List<Vector2Int>();
 
@@ -47,6 +47,8 @@ public abstract class Pieces : MonoBehaviour
 
                 try
                 {
+
+
                     //Test if a piece is on the grid (last point)
                     if (GameBoard.Instance.IsSameSidePieceAtLocation(nextGridPoint, isWhite))
                     {
@@ -81,6 +83,54 @@ public abstract class Pieces : MonoBehaviour
         }
 
         return movePositions;
+    }
+
+
+    public virtual List<Vector2Int> ConvertPseudoToLegalMoves(List<Vector2Int> pseudoLegalMoves)
+    {
+        List<Vector2Int> legalMoves = new List<Vector2Int>();
+
+        if (pseudoLegalMoves.Count == 0) return legalMoves;
+
+        foreach(Vector2Int move in pseudoLegalMoves)
+        {
+         //   Pieces[,] newBoardState = GameBoard.Instance.chessBoardPositions.Clone() as Pieces[,];
+
+            Vector2Int oldGridPosition = this.gridPosition;
+
+            GameBoard.Instance.TryGetPieceAtLocation(move, out Pieces oldPiece);
+
+            GameBoard.Instance.SetPieceAtLocation(oldGridPosition, null, false);
+
+            GameBoard.Instance.SetPieceAtLocation(move, this, false);
+
+          //  newBoardState[this.gridPosition.x, this.gridPosition.y] = null;
+          //  newBoardState[move.x, move.y] = this;
+
+            foreach(Pieces piece in GameBoard.Instance.chessBoardPositions)
+            {
+                if (piece is King)
+                {
+                    King king = (King)piece;
+
+                    if ((king.isWhite == isWhite) && !king.InCheck()) legalMoves.Add(move);
+                }
+            }
+
+            GameBoard.Instance.SetPieceAtLocation(oldGridPosition, this, false);
+            GameBoard.Instance.SetPieceAtLocation(move, oldPiece, false);
+        }
+
+        return legalMoves;
+    }
+
+    public List<Vector2Int> GetLegalMoves(Vector2Int gridPoint)
+    {
+      //  List<Vector2Int> legalMoves = ConvertPseudoToLegalMoves(GetPseudoLegalMoves(gridPoint));
+
+      //  if (legalMoves.Count == 0) Debug.LogError("wot");
+        return ConvertPseudoToLegalMoves(GetPseudoLegalMoves(gridPoint));
+     //   return legalMoves;
     }
 
 

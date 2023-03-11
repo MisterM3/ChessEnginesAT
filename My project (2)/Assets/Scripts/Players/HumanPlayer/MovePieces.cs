@@ -45,7 +45,7 @@ public class MovePieces : AbstractPlayer
             if (board.TryGetSamePieceAtLocation(mousePosition, isWhite, out piece))
             {
                 activePiece = piece;
-                visual.ActivateMoveVisuals(activePiece.MoveLocations(activePiece.gridPosition));
+                visual.ActivateMoveVisuals(activePiece.GetLegalMoves(activePiece.gridPosition));
                 Debug.Log("true");
             }
 
@@ -54,7 +54,7 @@ public class MovePieces : AbstractPlayer
 
         //If a piece is selected
 
-        List<Vector2Int> positions = activePiece.MoveLocations(activePiece.gridPosition);
+        List<Vector2Int> positions = activePiece.GetLegalMoves(activePiece.gridPosition);
 
 
         foreach (Vector2Int position in positions)
