@@ -1726,7 +1726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   evaluationMethodStragety: 0
-  depth: 2
+  depth: 1
   isWhite: 0
   canCastle: 0
 --- !u!4 &977481156
@@ -2003,7 +2003,7 @@ PrefabInstance:
     - target: {fileID: 4414497699178582290, guid: d4895bd87a476d045bee34dd1b370d7f,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d4895bd87a476d045bee34dd1b370d7f, type: 3}
@@ -3600,11 +3600,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1298090073, guid: d1beb8cce31261542a9267d71778a6b1, type: 3}
       propertyPath: gridPosition.x
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1298090073, guid: d1beb8cce31261542a9267d71778a6b1, type: 3}
       propertyPath: gridPosition.y
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3869524056493034129, guid: d1beb8cce31261542a9267d71778a6b1,
         type: 3}
@@ -3614,7 +3614,7 @@ PrefabInstance:
     - target: {fileID: 3869524056493034129, guid: d1beb8cce31261542a9267d71778a6b1,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3869524056493034129, guid: d1beb8cce31261542a9267d71778a6b1,
         type: 3}
@@ -3624,7 +3624,7 @@ PrefabInstance:
     - target: {fileID: 3869524056493034129, guid: d1beb8cce31261542a9267d71778a6b1,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3869524056493034129, guid: d1beb8cce31261542a9267d71778a6b1,
         type: 3}

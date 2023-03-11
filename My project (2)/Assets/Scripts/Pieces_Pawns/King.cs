@@ -56,7 +56,34 @@ public class King : Pieces
         }
 
         return legalMoves;
-    } 
+    }
+    
+    public bool InCheck(Vector2Int gridPosition)
+    {
+        bool inCheck = false;
+
+        Vector2Int oldGridPosition = this.gridPosition;
+
+        GameBoard.Instance.TryGetPieceAtLocation(gridPosition, out Pieces oldPiece);
+
+
+
+        GameBoard.Instance.SetPieceAtLocation(gridPosition, this, false);
+        GameBoard.Instance.SetPieceAtLocation(oldGridPosition, null, false);
+
+        this.gridPosition = gridPosition;
+        //  newBoardState[this.gridPosition.x, this.gridPosition.y] = null;
+        //  newBoardState[move.x, move.y] = this;
+
+        inCheck = InCheck();
+
+        this.gridPosition = oldGridPosition;
+        GameBoard.Instance.SetPieceAtLocation(oldGridPosition, this, false);
+        GameBoard.Instance.SetPieceAtLocation(gridPosition, oldPiece, false);
+
+        return inCheck;
+    }
+
 
     //Rewrite
     public bool TryShortCastling()
@@ -73,6 +100,11 @@ public class King : Pieces
         Rook rook = (Rook)piece;
 
         if (rook.hasMoved) return false;
+
+        if (InCheck()) return false;
+
+        if (InCheck(new Vector2Int(3, gridPosition.y))) return false;
+        if (InCheck(new Vector2Int(2, gridPosition.y))) return false;
 
 
         //if (KingInCheck(white, position);
@@ -92,9 +124,6 @@ public class King : Pieces
                 {
                     return false;
                 }
-
-              // if (InCheck())
-
 
             }
             catch (System.Exception e)
@@ -120,6 +149,11 @@ public class King : Pieces
         Rook rook = (Rook)piece;
 
         if (rook.hasMoved) return false;
+
+        if (InCheck()) return false;
+
+        if (InCheck(new Vector2Int(5, gridPosition.y))) return false;
+        if (InCheck(new Vector2Int(6, gridPosition.y))) return false;
 
 
         //if (KingInCheck(white, position);

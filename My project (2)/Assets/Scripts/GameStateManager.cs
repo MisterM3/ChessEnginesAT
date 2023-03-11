@@ -28,25 +28,26 @@ public class GameStateManager : MonoBehaviour
         }
 
         Instance = this;
-        
 
+        
     }
 
 
-    public float timer = 1.0f;
+    public float timer = .2f;
     public float cooldown = 0.0f;
 
     private void Update()
     {
-        //  if (cooldown < 0)
-        //  {
-         if (Input.GetKeyDown(KeyCode.T))
-        {  
+          if (cooldown < 0)
+          {
+            //   if (Input.GetKeyDown(KeyCode.T))
+            //  {  
             MakeTurn();
+            //     MakeTurn();
+            //}
+                   cooldown = float.MaxValue;
         }
-        //    cooldown = timer;
-       //}
-        //cooldown -= Time.deltaTime;
+        cooldown -= Time.deltaTime;
     }
 
     public bool InCheck(Pieces[,] board, Vector2Int GridPosition, bool isWhite)
@@ -83,6 +84,7 @@ public class GameStateManager : MonoBehaviour
     {
         isWhiteTurn = !isWhiteTurn;
         turn++;
+        MakeTurn();
 
     }
 

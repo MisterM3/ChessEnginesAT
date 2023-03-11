@@ -120,14 +120,6 @@ public class MiniMaxAI : AbstractAIPlayer
                         newBoardState[0, piece.gridPosition.y] = null;
                         newBoardState[3, piece.gridPosition.y] = rook;
 
-                        //Stupid and needs to be replaced
-                        foreach (Pieces isKing in newBoardState)
-                        {
-                            if (isKing is King && isKing.isWhite == isWhite)
-                            {
-                                if (GameStateManager.Instance.InCheck(newBoardState, isKing.gridPosition, isWhite)) continue;
-                            }
-                        }
 
                         int score = SearchingMethod(newBoardState, pDepth - 1, !whiteMove);
                         finalScore = score;
@@ -169,15 +161,6 @@ public class MiniMaxAI : AbstractAIPlayer
                         newBoardState[7, piece.gridPosition.y] = null;
                         newBoardState[5, piece.gridPosition.y] = rook;
 
-
-                        //Stupid and needs to be replaced
-                        foreach (Pieces isKing in newBoardState)
-                        {
-                            if (isKing is King && isKing.isWhite == isWhite)
-                            {
-                                if (GameStateManager.Instance.InCheck(newBoardState, isKing.gridPosition, isWhite)) continue;
-                            }
-                        }
 
                         int score = SearchingMethod(newBoardState, pDepth - 1, !whiteMove);
                         finalScore = score;
