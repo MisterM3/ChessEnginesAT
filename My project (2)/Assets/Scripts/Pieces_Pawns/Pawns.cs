@@ -44,7 +44,7 @@ public class Pawns : Pieces
             //Top
             if (!GameBoard.Instance.IsPieceAtLocation(gridPosition + moveDirections[0]))
             {
-            
+                Debug.LogWarning("featest");
                 movePositions.Add(gridPosition + moveDirections[0]);
             }
 
@@ -96,6 +96,15 @@ public class Pawns : Pieces
 
 
         return movePositions;
+    }
+
+    public bool TryPromotion(Vector2Int movePosition)
+    {
+        Debug.LogWarning("test");
+
+        if ((movePosition.y == 7 && isWhite) || (movePosition.y == 0 && !isWhite)) return true;
+
+        return false;
     }
 
 

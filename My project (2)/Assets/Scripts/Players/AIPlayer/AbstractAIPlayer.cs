@@ -12,6 +12,8 @@ public abstract class AbstractAIPlayer : AbstractPlayer
 
     protected List<Pieces> bestPieceToMove;
 
+    protected Pieces bestPieceToPromoteTo;
+
     [SerializeField] protected int depth = 1;
     public void Awake()
     {

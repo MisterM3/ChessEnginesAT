@@ -11,6 +11,7 @@ public class MiniMaxAI : AbstractAIPlayer
 
 
 
+
     public override int EvaluateBoard(Pieces[,] boardState)
     {
         return 1;
@@ -62,6 +63,38 @@ public class MiniMaxAI : AbstractAIPlayer
                     }
                 }
             }
+        }
+
+
+        if (bestPieceToMove[random] is Pawns && (bestGridPosition[random].y == 7 || bestGridPosition[random].y == 0))
+        {
+
+         //   GameBoard.Instance.SetPieceAtLocation(bestPieceToMove[random].gridPosition, null);
+
+            Pieces queen;
+
+
+            if (isWhite)
+            {
+                queen = GameBoard.Instance.SetPieceAtLocation(bestGridPosition[random], 1);
+            }
+            else queen = GameBoard.Instance.SetPieceAtLocation(bestGridPosition[random], -1);
+
+
+                queen.isWhite = isWhite;
+            //    queen.gridPosition = bestGridPosition[random];
+
+            Debug.LogError(bestGridPosition[random]);
+
+        //    GameBoard.Instance.SetPieceAtLocation(bestPieceToMove[random].gridPosition, null);
+        //    queen.SetGridPosition(bestGridPosition[random]);
+          //  GameBoard.Instance.SetPieceAtLocation(bestGridPosition[random], queen);
+
+           // bestPieceToPromoteTo = null;
+
+          //  GameStateManager.Instance.NextTurn();
+
+         //   return;
         }
         
             Debug.Log(amount);
@@ -191,9 +224,74 @@ public class MiniMaxAI : AbstractAIPlayer
 
                 }
 
+
                 //Recursivly go further in moves till max depth is reached
                 foreach(Vector2Int move in moves)
                 {
+                    
+                    if (piece is Pawns)
+                    {
+                        Pawns pawn = (Pawns)piece;
+                            Debug.LogWarning("ere");
+
+                        if (pawn.TryPromotion(move))
+                        {
+
+                            Pieces[,] queenPromotion = boardState.Clone() as Pieces[,];
+                            //Puts the old position to null;
+                            queenPromotion[piece.gridPosition.x, piece.gridPosition.y] = null;
+
+                            Pieces newQueen;
+
+                            if (isWhite)
+                            {
+                                newQueen = GameBoard.Instance.SetPieceAtLocation(move, 1);
+                            }
+                            else newQueen = GameBoard.Instance.SetPieceAtLocation(move, -1);
+
+                            newQueen.isWhite = isWhite;
+                            newQueen.gridPosition = move;
+                            queenPromotion[move.x, move.y] = newQueen;
+
+                            int queenScore = SearchingMethod(queenPromotion, pDepth - 1, !whiteMove);
+
+                            finalScore = queenScore;
+                            if (pDepth == depth)
+                            {
+
+                                //Change so only top part can add to best move
+                                if (queenScore > i)
+                                {
+                                    i = queenScore;
+                                    bestGridPosition.Clear();
+                                    bestPieceToMove.Clear();
+
+                                    bestGridPosition.Add(move);
+                                    bestPieceToMove.Add(newQueen);
+
+                                    bestPieceToPromoteTo = newQueen;
+                                }
+
+                                if (queenScore == i)
+                                {
+                                    bestGridPosition.Add(move);
+                                    bestPieceToMove.Add(piece);
+
+                                    bestPieceToPromoteTo = newQueen;
+                                }
+
+                            }
+
+                            
+                            continue;
+
+                        }
+                        
+                    }
+                    
+
+                    
+
                     Pieces[,] newBoardState = boardState.Clone() as Pieces[,];
 
                    
@@ -201,15 +299,6 @@ public class MiniMaxAI : AbstractAIPlayer
                     newBoardState[piece.gridPosition.x, piece.gridPosition.y] = null;
                     newBoardState[move.x, move.y] = piece;
 
-
-                    //Stupid and needs to be replaced
-                    foreach(Pieces isKing in newBoardState)
-                    {
-                        if (isKing is King && isKing.isWhite == isWhite)
-                        {
-                            if (GameStateManager.Instance.InCheck(newBoardState, isKing.gridPosition, isWhite)) continue;
-                        }
-                    }
 
                     
                    

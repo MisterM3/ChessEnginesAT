@@ -12,6 +12,17 @@ public class GameBoard : MonoBehaviour
     //A chessBoard is 8 by 8
     public const int SIZE = 8;
 
+    public GameObject QueenB;
+    public GameObject QueenW;
+    public GameObject KnightB;
+    public GameObject KnightW;
+    public GameObject BishopB;
+    public GameObject BishopW;
+    public GameObject RookB;
+    public GameObject RookW;
+
+
+
 
 
     private void Awake()
@@ -72,6 +83,81 @@ public class GameBoard : MonoBehaviour
         }
 
         chessBoardPositions[gridPosition.x, gridPosition.y] = piece;
+    }
+
+    //I HATE PROMOTIONS
+    public Pieces SetPieceAtLocation(Vector2Int gridPosition, int pieceNumber)
+    {
+        switch(pieceNumber)
+        {
+            case 1:
+                GameObject queenPrefab = Instantiate(QueenW, new Vector3(-100, 0, 0), Quaternion.identity);
+                Queen queen = queenPrefab.GetComponent<Queen>();
+                queen.gridPosition = gridPosition;
+                queen.isWhite = true;
+
+                return queen;
+                break;
+            case 2:
+                GameObject knightPrefab = Instantiate(KnightW, new Vector3(-100, 0, 0), Quaternion.identity);
+                Knight knight = knightPrefab.GetComponent<Knight>();
+                knight.gridPosition = gridPosition;
+                knight.isWhite = true;
+
+                return knight;
+                break;
+            case 3:
+                GameObject bishopPrefab = Instantiate(BishopW, new Vector3(-100, 0, 0), Quaternion.identity);
+                Bishop bishop = bishopPrefab.GetComponent<Bishop>();
+                bishop.gridPosition = gridPosition;
+                bishop.isWhite = true;
+
+                return bishop;
+                break;
+            case 4:
+                GameObject rookPrefab = Instantiate(RookW, new Vector3(-100, 0, 0), Quaternion.identity);
+                Rook rook = rookPrefab.GetComponent<Rook>();
+                rook.gridPosition = gridPosition;
+                rook.isWhite = true;
+
+                return rook;
+                break;
+
+            case -1:
+                GameObject queenPrefabB = Instantiate(QueenB, new Vector3(-100, 0, 0), Quaternion.identity);
+                Queen queenB = queenPrefabB.GetComponent<Queen>();
+                queenB.gridPosition = gridPosition;
+                queenB.isWhite = false;
+
+                return queenB;
+                break;
+            case -2:
+                GameObject knightPrefabB = Instantiate(KnightB, new Vector3(-100, 0, 0), Quaternion.identity);
+                Knight knightB = knightPrefabB.GetComponent<Knight>();
+                knightB.gridPosition = gridPosition;
+                knightB.isWhite = false;
+
+                return knightB;
+                break;
+            case -3:
+                GameObject bishopPrefabB = Instantiate(BishopB, new Vector3(-100, 0, 0), Quaternion.identity);
+                Bishop bishopB = bishopPrefabB.GetComponent<Bishop>();
+                bishopB.gridPosition = gridPosition;
+                bishopB.isWhite = false;
+
+                return bishopB;
+                break;
+            case -4:
+                GameObject rookPrefabB = Instantiate(RookB, new Vector3(-100, 0, 0), Quaternion.identity);
+                Rook rookB = rookPrefabB.GetComponent<Rook>();
+                rookB.gridPosition = gridPosition;
+                rookB.isWhite = false;
+
+                return rookB;
+                break;
+        }
+
+        return null;
     }
 
     public bool TryGetPieceAtLocation(Vector2Int gridPosition, out Pieces piece )

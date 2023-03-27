@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 33
+  controlID: 38
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 18
+  controlID: 28
 --- !u!114 &5
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 19
+  controlID: 29
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -318,22 +318,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/Pieces_Pawns
+    - Assets/Prefabs/Pieces
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/Pieces_Pawns
+  - Assets/Prefabs/Pieces
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\win 10\Desktop\ChessEnginesAT\My project (2)
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 866c0000
-    m_LastClickedID: 27782
-    m_ExpandedIDs: 00000000f86a00007a6c00007e6c0000886c0000
+    m_SelectedIDs: d8e30000
+    m_LastClickedID: 58328
+    m_ExpandedIDs: 00000000f86a000046de00004ade0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -386,8 +386,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 8cf7ffff5cfaffff18f9ffffccf9ffff38faffff14faffffa8f9ffff64f8ffff
-    m_LastClickedInstanceID: -2164
+    m_SelectedInstanceIDs: 16f9ffffcaf9ffff
+    m_LastClickedInstanceID: -1770
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c62300005a8b0000
     m_RenameOverlay:
@@ -490,21 +490,21 @@ MonoBehaviour:
     m_SaveData: []
   m_SceneHierarchy:
     m_TreeViewState:
-      scrollPos: {x: 0, y: 136}
-      m_SelectedIDs: 5cfaffff18f9ffffccf9ffffa8f9ffff
-      m_LastClickedID: -1624
-      m_ExpandedIDs: 34fbffffa4670000a8670000d2670000fc6700000a680000
+      scrollPos: {x: 0, y: 456}
+      m_SelectedIDs: 
+      m_LastClickedID: 0
+      m_ExpandedIDs: cc75feffd675feffda7ffeffe47ffeffea7ffeff12f9ffff4cfaffff56faffff5afaffff32fbffffa4670000a8670000d2670000fc6700000a6800001e68000038680000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
-        m_Name: WhiteRook
-        m_OriginalName: WhiteRook
+        m_Name: QueenWhite Variant(Clone)
+        m_OriginalName: QueenWhite Variant(Clone)
         m_EditFieldRect:
           serializedVersion: 2
           x: 0
           y: 0
           width: 0
           height: 0
-        m_UserData: -2056
+        m_UserData: -112160
         m_IsWaitingForDelay: 0
         m_IsRenaming: 0
         m_OriginalEventType: 0
@@ -776,9 +776,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 2.6037056, y: -2.0182834, z: 3.3776093}
+    m_Target: {x: -100, y: 0, z: -0.000000059604645}
     speed: 2
-    m_Value: {x: 2.6037056, y: -2.0182834, z: 3.3776093}
+    m_Value: {x: -100, y: 0, z: -0.000000059604645}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -825,13 +825,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.4818822, y: 0.0052539767, z: -0.0028892756, w: 0.8762191}
+    m_Target: {x: 0.36478508, y: -0.60656047, z: 0.36632454, w: 0.6040115}
     speed: 2
-    m_Value: {x: 0.48188072, y: 0.0052539604, z: -0.0028892667, w: 0.87621635}
+    m_Value: {x: 0.36478376, y: -0.6065583, z: 0.36632323, w: 0.60400933}
   m_Size:
-    m_Target: 4.335799
+    m_Target: 0.9428381
     speed: 2
-    m_Value: 4.335799
+    m_Value: 0.9428381
   m_Ortho:
     m_Target: 0
     speed: 2
