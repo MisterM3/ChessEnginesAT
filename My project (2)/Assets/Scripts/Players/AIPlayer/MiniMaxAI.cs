@@ -11,6 +11,12 @@ public class MiniMaxAI : AbstractAIPlayer
 
 
 
+    public void Start()
+    {
+        if (isWhite) finalScore = int.MinValue;
+        if (!isWhite) finalScore = int.MaxValue;
+    }
+
 
     public override int EvaluateBoard(Pieces[,] boardState)
     {
@@ -29,14 +35,25 @@ public class MiniMaxAI : AbstractAIPlayer
 
         int number = SearchingMethod(GameBoard.Instance.chessBoardPositions, depth, isWhite);
 
+        Debug.LogWarning(number);
+
         int random = Random.Range(0, bestPieceToMove.Count);
 
 
 
+        foreach (Pieces piece in GameBoard.Instance.chessBoardPositions)
+        {
+         //   if ((isWhite == piece.isWhite) && piece is Pawns)
+         //   {
+          //      Pawns pawn = (Pawns)piece;
+           //     pawn.enPassantAble = false;
+           // }
+        }
+
         //Castling (rework if possible)
 
 
-        Debug.Log(canCastle);
+        //Debug.Log(canCastle);
 
         if (canCastle)
         {
@@ -66,6 +83,8 @@ public class MiniMaxAI : AbstractAIPlayer
         }
 
 
+        Debug.Log(bestPieceToMove.Count);
+
         if (bestPieceToMove[random] is Pawns && (bestGridPosition[random].y == 7 || bestGridPosition[random].y == 0))
         {
 
@@ -81,23 +100,23 @@ public class MiniMaxAI : AbstractAIPlayer
             else queen = GameBoard.Instance.SetPieceAtLocation(bestGridPosition[random], -1);
 
 
-                queen.isWhite = isWhite;
-            //    queen.gridPosition = bestGridPosition[random];
-
-            Debug.LogError(bestGridPosition[random]);
-
-        //    GameBoard.Instance.SetPieceAtLocation(bestPieceToMove[random].gridPosition, null);
-        //    queen.SetGridPosition(bestGridPosition[random]);
-          //  GameBoard.Instance.SetPieceAtLocation(bestGridPosition[random], queen);
-
-           // bestPieceToPromoteTo = null;
-
-          //  GameStateManager.Instance.NextTurn();
-
-         //   return;
         }
         
-            Debug.Log(amount);
+
+        
+        
+        //Enpassent, remove pawn
+        if (bestPieceToMove[random] is Pawns && (!GameBoard.Instance.IsPieceAtLocation(bestGridPosition[random])) && bestPieceToMove[random].gridPosition.x != bestGridPosition[random].x)
+        {
+            Debug.Log(bestGridPosition[random]);
+            if (!GameBoard.Instance.IsPieceAtLocation(bestGridPosition[random])) Debug.LogError("true");
+            Vector2Int test = new Vector2Int(bestGridPosition[random].x, bestPieceToMove[random].gridPosition.y);
+            Debug.Log(test);
+            GameBoard.Instance.RemovePieceFromLocation(test);
+            Debug.Log("tefeafst");
+        }
+
+            Debug.LogError("Nodes: " + amount);
             GameBoard.Instance.SetPieceAtLocation(bestPieceToMove[random].gridPosition, null);
             bestPieceToMove[random].SetGridPosition(bestGridPosition[random]);
             GameBoard.Instance.SetPieceAtLocation(bestGridPosition[random], bestPieceToMove[random]);
@@ -108,26 +127,45 @@ public class MiniMaxAI : AbstractAIPlayer
         GameStateManager.Instance.NextTurn();
     }
 
+        int finalScore = 0;
     public override int SearchingMethod(Pieces[,] boardState, int pDepth, bool whiteMove)
     {
 
 
-        int finalScore = 0;
+        int i = 0;
+
+        Debug.LogError(whiteMove);
+
+
+
+        if (pDepth <= 0)
+        {
+            amount++;
+            if (evaluationMethodStragety != null)
+            {
+                Debug.LogError(boardState);
+                Debug.Log(boardState[2, 2]);
+                return evaluationMethodStragety.Evaluate(boardState);
+            }
+        }
+            foreach (Pieces piece in boardState)
+        {
+          //  if ((isWhite == piece.isWhite) && piece is Pawns)
+        //    {
+          //      Pawns pawn = (Pawns)piece;
+          //      pawn.enPassantAble = false;
+          //  }
+        }
 
         foreach (Pieces piece in boardState)
         {
             
             if (piece == null) continue;
             //Evaluate when depth has been reached
-            if (pDepth <= 0)
-            {
-                amount++;
-                return 1;
-            }
 
             List<Vector2Int> moves = new();
 
-            int i = 1;
+           
             if (piece.isWhite == whiteMove)
             {
                 moves = piece.GetLegalMoves(piece.gridPosition);
@@ -156,10 +194,10 @@ public class MiniMaxAI : AbstractAIPlayer
 
                         int score = SearchingMethod(newBoardState, pDepth - 1, !whiteMove);
                         finalScore = score;
-                        if (pDepth == depth)
+                  //      if (pDepth == depth)
                         {
                             //Change so only top part can add to best move
-                            if (score > i)
+                            if ((score > i && isWhite) || (score < i && !isWhite))
                             {
                                 i = score;
                                 bestGridPosition.Clear();
@@ -197,10 +235,10 @@ public class MiniMaxAI : AbstractAIPlayer
 
                         int score = SearchingMethod(newBoardState, pDepth - 1, !whiteMove);
                         finalScore = score;
-                        if (pDepth == depth)
+                        //    if (pDepth == depth)
                         {
                             //Change so only top part can add to best move
-                            if (score > i)
+                            if ((score > i && isWhite) || (score < i && !isWhite))
                             {
                                 i = score;
                                 bestGridPosition.Clear();
@@ -232,7 +270,6 @@ public class MiniMaxAI : AbstractAIPlayer
                     if (piece is Pawns)
                     {
                         Pawns pawn = (Pawns)piece;
-                            Debug.LogWarning("ere");
 
                         if (pawn.TryPromotion(move))
                         {
@@ -255,12 +292,14 @@ public class MiniMaxAI : AbstractAIPlayer
 
                             int queenScore = SearchingMethod(queenPromotion, pDepth - 1, !whiteMove);
 
+                            Destroy(newQueen.gameObject);
+
                             finalScore = queenScore;
                             if (pDepth == depth)
                             {
 
                                 //Change so only top part can add to best move
-                                if (queenScore > i)
+                                if ((queenScore > i && isWhite) || (queenScore < i && !isWhite))
                                 {
                                     i = queenScore;
                                     bestGridPosition.Clear();
@@ -287,6 +326,47 @@ public class MiniMaxAI : AbstractAIPlayer
 
                         }
                         
+
+                        //Has enpassented something
+                        if (move.x != pawn.gridPosition.x && pawn.dieTroughEnPassent)
+                        {
+                            Pieces[,] enpassent = boardState.Clone() as Pieces[,];
+                            //Puts the old position to null;
+
+                            //Puts the old position to null;
+                            enpassent[piece.gridPosition.x, piece.gridPosition.y] = null;
+                            enpassent[move.x, move.y] = piece;
+
+                            enpassent[move.x, move.y - 1] = null;
+
+                            int scoreEnpassent = SearchingMethod(enpassent, pDepth - 1, !whiteMove);
+                            finalScore = scoreEnpassent;
+                            if (pDepth == depth)
+                            {
+                                //Change so only top part can add to best move
+                                if ((scoreEnpassent > i && isWhite) || (scoreEnpassent < i && !isWhite))
+                                {
+                                    i = scoreEnpassent;
+                                    bestGridPosition.Clear();
+                                    bestPieceToMove.Clear();
+
+
+                                    bestGridPosition.Add(move);
+                                    bestPieceToMove.Add(piece);
+                                }
+
+                                if (scoreEnpassent == i)
+                                {
+                                    bestGridPosition.Add(move);
+                                    bestPieceToMove.Add(piece);
+                                }
+
+                            }
+
+                            continue;
+
+                        }
+
                     }
                     
 
@@ -300,21 +380,40 @@ public class MiniMaxAI : AbstractAIPlayer
                     newBoardState[move.x, move.y] = piece;
 
 
+                    bool pawnNotMovedYet = false ;
                     
-                   
-                    
+                    if (piece is Pawns)
+                    {
+                        Pawns pawn = (Pawns)piece;
+                        if (pawn.notMoved)
+                        {
+                            pawnNotMovedYet = true;
+                            pawn.notMoved = false;
+                            Debug.Log("fea");
+                        }
+                    }
 
                     int score = SearchingMethod(newBoardState, pDepth - 1, !whiteMove);
-                    finalScore = score;
-                    if (pDepth == depth)
+
+                    if (piece is Pawns)
                     {
-                        
-                        //Change so only top part can add to best move
-                        if (score > i)
+                        Pawns pawn = (Pawns)piece;
+                        if (pawnNotMovedYet)
                         {
-                            i = score;
+                            pawn.notMoved = true;
+                        }
+                    }
+
+                    //    if (pDepth == depth)
+                    {
+                        //Change so only top part can add to best move
+                        if ((score > finalScore && isWhite) || (score < finalScore && !isWhite))
+                        {
+                          //  i = score;
+                            finalScore = score;
                             bestGridPosition.Clear();
                             bestPieceToMove.Clear();
+
 
                             bestGridPosition.Add(move);
                             bestPieceToMove.Add(piece);
@@ -348,11 +447,7 @@ public class MiniMaxAI : AbstractAIPlayer
     {
 
     }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
 
     // Update is called once per frame
     void Update()

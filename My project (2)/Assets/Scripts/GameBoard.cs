@@ -72,6 +72,15 @@ public class GameBoard : MonoBehaviour
         return true;
     }
 
+    public void RemovePieceFromLocation(Vector2Int gridPosition)
+    {
+        Pieces oldPiece = chessBoardPositions[gridPosition.x, gridPosition.y];
+
+        Destroy(oldPiece.gameObject);
+        chessBoardPositions[gridPosition.x, gridPosition.y] = null;
+
+    }
+
 
     public void SetPieceAtLocation(Vector2Int gridPosition, Pieces piece, bool destroy = true)
     {
@@ -81,6 +90,7 @@ public class GameBoard : MonoBehaviour
 
             if (oldPiece != null && destroy) Destroy(oldPiece.gameObject);
         }
+
 
         chessBoardPositions[gridPosition.x, gridPosition.y] = piece;
     }
@@ -95,6 +105,7 @@ public class GameBoard : MonoBehaviour
                 Queen queen = queenPrefab.GetComponent<Queen>();
                 queen.gridPosition = gridPosition;
                 queen.isWhite = true;
+                queen.SetGridPosition(gridPosition);
 
                 return queen;
                 break;
@@ -103,6 +114,7 @@ public class GameBoard : MonoBehaviour
                 Knight knight = knightPrefab.GetComponent<Knight>();
                 knight.gridPosition = gridPosition;
                 knight.isWhite = true;
+                knight.SetGridPosition(gridPosition);
 
                 return knight;
                 break;
@@ -111,7 +123,7 @@ public class GameBoard : MonoBehaviour
                 Bishop bishop = bishopPrefab.GetComponent<Bishop>();
                 bishop.gridPosition = gridPosition;
                 bishop.isWhite = true;
-
+                bishop.SetGridPosition(gridPosition);
                 return bishop;
                 break;
             case 4:
@@ -119,7 +131,7 @@ public class GameBoard : MonoBehaviour
                 Rook rook = rookPrefab.GetComponent<Rook>();
                 rook.gridPosition = gridPosition;
                 rook.isWhite = true;
-
+                rook.SetGridPosition(gridPosition);
                 return rook;
                 break;
 
@@ -128,7 +140,7 @@ public class GameBoard : MonoBehaviour
                 Queen queenB = queenPrefabB.GetComponent<Queen>();
                 queenB.gridPosition = gridPosition;
                 queenB.isWhite = false;
-
+                queenB.SetGridPosition(gridPosition);
                 return queenB;
                 break;
             case -2:
@@ -136,7 +148,7 @@ public class GameBoard : MonoBehaviour
                 Knight knightB = knightPrefabB.GetComponent<Knight>();
                 knightB.gridPosition = gridPosition;
                 knightB.isWhite = false;
-
+                knightB.SetGridPosition(gridPosition);
                 return knightB;
                 break;
             case -3:
@@ -144,7 +156,7 @@ public class GameBoard : MonoBehaviour
                 Bishop bishopB = bishopPrefabB.GetComponent<Bishop>();
                 bishopB.gridPosition = gridPosition;
                 bishopB.isWhite = false;
-
+                bishopB.SetGridPosition(gridPosition);
                 return bishopB;
                 break;
             case -4:
@@ -152,7 +164,7 @@ public class GameBoard : MonoBehaviour
                 Rook rookB = rookPrefabB.GetComponent<Rook>();
                 rookB.gridPosition = gridPosition;
                 rookB.isWhite = false;
-
+                rookB.SetGridPosition(gridPosition);
                 return rookB;
                 break;
         }

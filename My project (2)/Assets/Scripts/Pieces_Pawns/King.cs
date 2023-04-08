@@ -201,16 +201,12 @@ public class King : Pieces
                     if (nextGridPoint.x < 0) continue;
                     if (nextGridPoint.y < 0) continue;
 
-                    Debug.Log(direction);
-                    Debug.Log(i);
-                    Debug.Log(nextGridPoint);
 
                     try
                     {
                         //Test if a piece is on the grid (last point)
                         if (GameBoard.Instance.IsSameSidePieceAtLocation(nextGridPoint, isWhite))
                         {
-                               Debug.Log("test");
                             break;
                         }
 
@@ -226,7 +222,6 @@ public class King : Pieces
                         //Test if a piece is on the grid (last point)
                         if (GameBoard.Instance.TryGetOtherPieceAtLocation(nextGridPoint, isWhite, out Pieces piece))
                         {
-                            Debug.Log("tst");
                             if (direction.x * direction.y == 0 && (piece is Rook || piece is Queen)) return true;
                             if (direction.x * direction.y != 0 && (piece is Bishop || piece is Queen)) return true;
 

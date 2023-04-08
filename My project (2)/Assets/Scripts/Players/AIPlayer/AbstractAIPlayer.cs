@@ -4,7 +4,7 @@ using UnityEngine;
 
 public abstract class AbstractAIPlayer : AbstractPlayer
 {
-    public int evaluationMethodStragety;
+    public IEvaluation evaluationMethodStragety;
 
 
     //both connected (look into dictionary)
@@ -19,6 +19,10 @@ public abstract class AbstractAIPlayer : AbstractPlayer
     {
         bestGridPosition = new List<Vector2Int>();
         bestPieceToMove = new List<Pieces>();
+
+        Debug.LogError("ERFAF");
+        evaluationMethodStragety = GetComponent<IEvaluation>();
+        Debug.LogError(evaluationMethodStragety);
     }
 
 

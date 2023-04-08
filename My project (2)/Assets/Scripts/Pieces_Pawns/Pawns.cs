@@ -8,6 +8,8 @@ public class Pawns : Pieces
 
     public bool enPassantAble = false;
 
+    public bool dieTroughEnPassent = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +46,6 @@ public class Pawns : Pieces
             //Top
             if (!GameBoard.Instance.IsPieceAtLocation(gridPosition + moveDirections[0]))
             {
-                Debug.LogWarning("featest");
                 movePositions.Add(gridPosition + moveDirections[0]);
             }
 
@@ -63,7 +64,7 @@ public class Pawns : Pieces
             }
 
             //Enpassant
-            if (GameBoard.Instance.TryGetPieceAtLocation(gridPosition + new Vector2Int(1, 0), out Pieces piece) && !GameBoard.Instance.IsOtherSidePieceAtLocation(gridPosition + moveDirections[0] + new Vector2Int(1, 0), isWhite))
+            if (GameBoard.Instance.TryGetPieceAtLocation(gridPosition + new Vector2Int(1, 0), out Pieces piece) && !GameBoard.Instance.IsPieceAtLocation(gridPosition + moveDirections[0] + new Vector2Int(1,0)))
             {
 
                 //Check if enpassantable
@@ -71,13 +72,18 @@ public class Pawns : Pieces
                 {
                     Pawns pawn = (Pawns)piece;
 
-                    if (pawn.enPassantAble) movePositions.Add(gridPosition + moveDirections[0] + new Vector2Int(1, 0));
+                    if (pawn.enPassantAble)
+                    {
+                        Debug.Log("en");
+                        dieTroughEnPassent = true;
+                        movePositions.Add(gridPosition + moveDirections[0] + new Vector2Int(1, 0));
+                    }
                 }
             }
 
 
 
-            if (GameBoard.Instance.TryGetPieceAtLocation(gridPosition + new Vector2Int(-1, 0), out Pieces piece2) && !GameBoard.Instance.IsOtherSidePieceAtLocation(gridPosition + moveDirections[0] + new Vector2Int(-1, 0), isWhite))
+            if (GameBoard.Instance.TryGetPieceAtLocation(gridPosition + new Vector2Int(-1, 0), out Pieces piece2) && !GameBoard.Instance.IsPieceAtLocation(gridPosition + moveDirections[0] + new Vector2Int(-1, 0)))
             {
 
                 //Check if enpassantable
@@ -85,7 +91,12 @@ public class Pawns : Pieces
                 {
                     Pawns pawn = (Pawns)piece2;
 
-                    if (pawn.enPassantAble) movePositions.Add(gridPosition + moveDirections[0] + new Vector2Int(-1, 0));
+                    if (pawn.enPassantAble)
+                    {
+                        Debug.Log("en");
+                        dieTroughEnPassent = true;
+                        movePositions.Add(gridPosition + moveDirections[0] + new Vector2Int(-1, 0));
+                    }
                 }
             }
         }
@@ -100,7 +111,6 @@ public class Pawns : Pieces
 
     public bool TryPromotion(Vector2Int movePosition)
     {
-        Debug.LogWarning("test");
 
         if ((movePosition.y == 7 && isWhite) || (movePosition.y == 0 && !isWhite)) return true;
 
@@ -118,5 +128,67 @@ public class Pawns : Pieces
 
         notMoved = false;
         if ((newPosition.y == 3 && isWhite) || (newPosition.y == 4 && !isWhite)) enPassantAble = true;
+    }
+
+    public override List<Vector2Int> ConvertPseudoToLegalMoves(List<Vector2Int> pseudoLegalMoves)
+    {
+        List<Vector2Int> legalMoves = new List<Vector2Int>();
+
+        if (pseudoLegalMoves.Count == 0) return legalMoves;
+
+        bool passent = false;
+
+        foreach (Vector2Int move in pseudoLegalMoves)
+        {
+
+            //   Pieces[,] newBoardState = GameBoard.Instance.chessBoardPositions.Clone() as Pieces[,];
+
+            Vector2Int oldGridPosition = this.gridPosition;
+
+            GameBoard.Instance.TryGetPieceAtLocation(move, out Pieces oldPiece);
+
+            //Has enpassent
+            if (oldPiece == null && move.x != oldGridPosition.x)
+            {
+                Vector2Int enpassentGridPosition = new Vector2Int(move.x, oldGridPosition.y);
+                GameBoard.Instance.TryGetPieceAtLocation(enpassentGridPosition, out Pieces enPassentPieced);
+                oldPiece = enPassentPieced;
+                Debug.Log("efaen");
+                passent = true;
+            }
+
+
+            GameBoard.Instance.SetPieceAtLocation(oldGridPosition, null, false);
+
+            GameBoard.Instance.SetPieceAtLocation(move, this, false);
+
+
+            //  newBoardState[this.gridPosition.x, this.gridPosition.y] = null;
+            //  newBoardState[move.x, move.y] = this;
+
+            foreach (Pieces piece in GameBoard.Instance.chessBoardPositions)
+            {
+                if (piece is King)
+                {
+                    King king = (King)piece;
+
+                    if ((king.isWhite == isWhite) && !king.InCheck()) legalMoves.Add(move);
+                }
+            }
+
+            GameBoard.Instance.SetPieceAtLocation(oldGridPosition, this, false);
+
+            if (passent == true)
+            {
+                Vector2Int enpassentGridPosition = new Vector2Int(move.x, oldGridPosition.y);
+                GameBoard.Instance.SetPieceAtLocation(enpassentGridPosition, oldPiece, false);
+                Debug.Log("efaen");
+            }
+            else GameBoard.Instance.SetPieceAtLocation(move, oldPiece, false);
+
+            //GameBoard.Instance.SetPieceAtLocation(move, oldPiece, false);
+        }
+
+        return legalMoves;
     }
 }
