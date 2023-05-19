@@ -2372,7 +2372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa8bc5baa7bdc894aac727e5b5776fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  depth: 2
+  depth: 3
   isWhite: 1
   canCastle: 0
 --- !u!4 &1227054048

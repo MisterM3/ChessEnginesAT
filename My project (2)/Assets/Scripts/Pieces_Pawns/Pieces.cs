@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ColourChessSide { White, Black}
+
+
 public abstract class Pieces : MonoBehaviour
 {
 
@@ -12,10 +15,14 @@ public abstract class Pieces : MonoBehaviour
     //Max Amount of spaces move (8 except king, knight and pawn)
     protected int maxMoveAmount = 8;
 
+
+    public ChessBoard board;
+
     public Vector2Int gridPosition;
 
-    public bool isWhite = false;
+    
 
+    public ColourChessSide colourPiece;
 
 
     public void Awake()
@@ -23,7 +30,7 @@ public abstract class Pieces : MonoBehaviour
         moveDirections = new List<Vector2Int>();
     }
 
-    public virtual List<Vector2Int> GetPseudoLegalMoves(Vector2Int gridPoint)
+    public virtual List<Vector2Int> GetPseudoLegalMoves()
     {
         List<Vector2Int> movePositions = new List<Vector2Int>();
 
@@ -33,58 +40,61 @@ public abstract class Pieces : MonoBehaviour
             return null;
         }
 
-        
-        foreach(Vector2Int direction in moveDirections)
+
+        foreach (Vector2Int direction in moveDirections)
         {
-            for(int i = 1; i < maxMoveAmount + 1; i++)
+            for (int i = 1; i <= maxMoveAmount; i++)
             {
-                Vector2Int nextGridPoint = new Vector2Int(gridPoint.x + (i * direction.x), gridPoint.y + (i * direction.y));
-
-                if (gridPoint.x + (i * direction.x) > 7) continue;
-                if (gridPoint.y + (i * direction.y) > 7) continue;
-                if (gridPoint.x + (i * direction.x) < 0) continue;
-                if (gridPoint.y + (i * direction.y) < 0) continue;
-
-                try
-                {
+                Vector2Int nextGridPoint = new Vector2Int(gridPosition.x + (i * direction.x), gridPosition.y + (i * direction.y));
 
 
-                    //Test if a piece is on the grid (last point)
-                    if (GameBoard.Instance.IsSameSidePieceAtLocation(nextGridPoint, isWhite))
-                    {
-                        break;
-                    }
-
-
-                }
-                catch(System.Exception e)
-                {
-
-                }
-
-                movePositions.Add(nextGridPoint);
-
-
+                //Piece is outside board, so any spot further than this one will also be outside of the board
+                if (!IsInsideBoard(nextGridPoint)) break;
 
                 try
                 {
-                    //Test if a piece is on the grid (last point)
-                    if (GameBoard.Instance.IsOtherSidePieceAtLocation(nextGridPoint, isWhite))
+
+                    //Gets the piece at the position to check later on what to do with it
+                    Pieces pieceAtCheckingPosition = board.GetPieceFromPosition(nextGridPoint);
+
+                    //No piece already at position, so it's free to move to
+                    if (pieceAtCheckingPosition == null)
                     {
-                        break;
+                        movePositions.Add(nextGridPoint);
+                        continue;
                     }
 
-                }
-                catch (System.Exception e)
-                {
+                    //Piece is of opposite colour and can be taken, therefore the piece can move there
+                    if (pieceAtCheckingPosition.colourPiece != this.colourPiece)
+                    {
+                        movePositions.Add(nextGridPoint);
+                        continue;
+                    }
+
+                    //Piece is the same colour as this piece so we can't go any further and can check in different direction
+                    break;
+
 
                 }
+                catch (System.Exception e) { Debug.LogError(e); }
             }
         }
 
+        //Returns all pseudoPositions it can move to
         return movePositions;
+
     }
 
+    protected bool IsInsideBoard(Vector2Int gridPosition)
+    {
+        if (gridPosition.x >= ChessBoard.SIZE) return false;
+        if (gridPosition.y >= ChessBoard.SIZE) return false;
+        if (gridPosition.x < 0) return false;
+        if (gridPosition.y < 0) return false;
+
+
+        return true;
+    }
 
     public virtual List<Vector2Int> ConvertPseudoToLegalMoves(List<Vector2Int> pseudoLegalMoves)
     {
@@ -126,11 +136,7 @@ public abstract class Pieces : MonoBehaviour
 
     public List<Vector2Int> GetLegalMoves(Vector2Int gridPoint)
     {
-      //  List<Vector2Int> legalMoves = ConvertPseudoToLegalMoves(GetPseudoLegalMoves(gridPoint));
-
-      //  if (legalMoves.Count == 0) Debug.LogError("wot");
-        return ConvertPseudoToLegalMoves(GetPseudoLegalMoves(gridPoint));
-     //   return legalMoves;
+        return ConvertPseudoToLegalMoves(GetPseudoLegalMoves());
     }
 
 

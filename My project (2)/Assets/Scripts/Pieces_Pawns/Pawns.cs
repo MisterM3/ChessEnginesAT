@@ -10,26 +10,22 @@ public class Pawns : Pieces
 
     public bool dieTroughEnPassent = false;
 
-    // Start is called before the first frame update
-    void Start()
+
+    public void Start()
     {
-        GameBoard.Instance.SetPieceAtLocation(gridPosition, this);
+        switch(colourPiece)
+        {
+            case ColourChessSide.White:
+                moveDirections.Add(new Vector2Int(0, 1));
+                break;
+            case ColourChessSide.Black:
+                moveDirections.Add(new Vector2Int(0, -1));
+                break;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public override List<Vector2Int> GetPseudoLegalMoves()
     {
-        
-    }
-
-    public override List<Vector2Int> GetPseudoLegalMoves(Vector2Int gridPoint)
-    {
-
-        if (isWhite) moveDirections.Add(new Vector2Int(0, 1));
-        else moveDirections.Add(new Vector2Int(0, -1));
-
-
-
 
         List<Vector2Int> movePositions = new List<Vector2Int>();
 

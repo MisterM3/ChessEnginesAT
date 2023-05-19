@@ -10,10 +10,8 @@ public class King : Pieces
     // Start is called before the first frame update
     void Start()
     {
-
-        GameBoard.Instance.SetPieceAtLocation(gridPosition, this);
-
         maxMoveAmount = 1;
+
         moveDirections.Add(new Vector2Int(-1, -1));
         moveDirections.Add(new Vector2Int(1, 1));
         moveDirections.Add(new Vector2Int(1, -1));

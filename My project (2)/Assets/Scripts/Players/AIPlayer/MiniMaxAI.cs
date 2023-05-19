@@ -127,7 +127,10 @@ public class MiniMaxAI : AbstractAIPlayer
         GameStateManager.Instance.NextTurn();
     }
 
-        int finalScore = 0;
+  
+    int finalScore = 0;
+
+    /*
     public override int SearchingMethod(Pieces[,] boardState, int pDepth, bool whiteMove)
     {
 
@@ -441,6 +444,24 @@ public class MiniMaxAI : AbstractAIPlayer
 
 
     }
+    */
+
+
+    public override int SearchingMethod(Pieces[,] boardState, int pDepth, bool whiteMove)
+    {
+
+        foreach(Pieces piece in boardState)
+        {
+            piece.GetPseudoLegalMoves();
+
+
+
+        }
+        return 0;
+
+    }
+
+
 
 
     private void DoMove()
