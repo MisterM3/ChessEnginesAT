@@ -5,27 +5,223 @@ using UnityEngine;
 public class MiniMaxAI : AbstractAIPlayer
 {
 
-    [SerializeField] protected bool isWhite = false;
 
-    public bool canCastle = false;
+    [SerializeField] protected ColourChessSide side = ColourChessSide.Unassigned;
 
+    int score = 0;
 
+    ChessBoard bestBoard;
+
+    int finalScore = 0;
 
     public void Start()
     {
-        if (isWhite) finalScore = int.MinValue;
-        if (!isWhite) finalScore = int.MaxValue;
+        if (side == ColourChessSide.White) finalScore = int.MinValue;
+        if (side == ColourChessSide.Black) finalScore = int.MaxValue;
     }
 
 
-    public override int EvaluateBoard(Pieces[,] boardState)
+    //Evaluates for which side it's on
+    public override int EvaluateBoard(ChessBoard boardState)
     {
-        return 1;
+
+        int score = 0;
+
+
+        foreach (Pieces piece in boardState.GetChessBoard())
+        {
+            if (piece == null) continue;
+
+            if (piece.colourPiece == ColourChessSide.White)
+                score += piece.GetValuePiece();
+
+            if (piece.colourPiece == ColourChessSide.Black)
+                score -= piece.GetValuePiece();
+
+            
+
+        }
+
+        if (side == ColourChessSide.White)
+            score *= -1;
+
+        return score;
     }
 
     int amount = 0;
 
+    /*
+    public override void MovePiece()
+    {
+        float depthAmount = depth;
 
+        List<ChessBoard> checkedBoards = new List<ChessBoard>();
+
+        List<ChessBoard> boardsToCheck = new List<ChessBoard>();
+
+        checkedBoards.Add(GameBoard.Instance.chessBoardPositions);
+
+        while (depthAmount > 0)
+        {
+
+            
+
+
+
+            boardsToCheck = new List<ChessBoard>(checkedBoards);
+            checkedBoards = new List<ChessBoard>();
+
+            foreach (ChessBoard boardToCheck in boardsToCheck)
+            {
+                Debug.Log("test");
+                foreach (Pieces piece in boardToCheck.GetChessBoard())
+                {
+                    if (piece == null) continue;
+                    if (piece.colourPiece != side) continue;
+
+                    List<Vector2Int> moves = piece.GetPseudoLegalMoves();
+
+                    if (moves == null || moves.Count == 0) continue;
+                    foreach (Vector2Int move in moves)
+                    {
+                        Vector2Int oldGridPosition = piece.gridPosition;
+
+                        ChessBoard newBoard = boardToCheck.CopyBoard();
+
+                        Pieces copiedPiece = newBoard.GetPieceFromPosition(oldGridPosition);
+                        newBoard.SetPieceAtPosition(move, copiedPiece);
+                        newBoard.SetPieceAtPosition(oldGridPosition, null);
+
+                        checkedBoards.Add(newBoard);
+                        Debug.Log("test");
+
+                    }
+                }
+
+            }
+
+            depthAmount--;
+        }
+
+
+        Debug.Log(checkedBoards.Count);
+
+        
+    }
+
+    */
+
+
+
+    public override void MovePiece()
+    {
+        score = 0;
+        bestBoard = null;
+        amount = 0;
+        SearchingMethod(GameBoard.Instance.chessBoardPositions, depth, side);
+
+
+        if (bestBoard == null)
+        {
+            Debug.LogError("Error no board found");
+            return; ;
+        }
+
+        Debug.Log($"Amount of moves: {amount}");
+
+
+        GameBoard.Instance.ChangeBoard(bestBoard);
+    }
+
+    
+
+    public override int SearchingMethod(ChessBoard boardState, int pDepth, ColourChessSide side)
+    {
+
+        if (pDepth == 0) return EvaluateBoard(boardState);
+
+        int max = int.MinValue;
+
+        foreach (Pieces piece in boardState.GetChessBoard())
+        {
+            if (piece == null) continue;
+            
+            //Pieces allowed to move in current depth (ReWrite)
+            if (piece.colourPiece != side) continue;
+
+
+
+
+            List<Vector2Int> moves = piece.GetPseudoLegalMoves();
+
+            if (moves == null || moves.Count == 0) continue;
+            foreach (Vector2Int move in moves)
+            {
+
+                ChessBoard newBoard = GetNewBoard(piece, boardState, move);
+
+                amount++;
+
+                if (side == ColourChessSide.White) score = -SearchingMethod(newBoard, pDepth - 1, ColourChessSide.Black);
+                else if (side == ColourChessSide.Black) score = -SearchingMethod(newBoard, pDepth - 1, ColourChessSide.White);
+
+                //Debug.Log(score);
+
+                if (score > max)
+                {
+                    max = score;
+                    Debug.Log(score);
+
+                    if (pDepth == depth)
+                    {
+                        bestBoard = newBoard.CopyBoard();
+                    }
+                }
+
+                //Testing
+                if (score == max && pDepth == depth)
+                {
+                     int randomRange = Random.Range(0, 101);
+
+                  //  Debug.Log(randomRange);
+                    if (randomRange <= 50)
+                    {
+                        bestBoard = newBoard.CopyBoard();
+                    }
+                }
+            }
+        }
+
+        return max;
+    }
+
+
+    private ChessBoard GetNewBoard(Pieces piece, ChessBoard oldBoard, Vector2Int move)
+    {
+        Vector2Int oldGridPosition = piece.gridPosition;
+
+
+
+        ChessBoard newBoard = oldBoard.CopyBoard();
+
+        Pieces copiedPiece = newBoard.GetPieceFromPosition(oldGridPosition);
+
+
+        //Sets moved to false
+        if (copiedPiece is ISpecialFirstMove)
+        {
+            ISpecialFirstMove movePiece = (ISpecialFirstMove)copiedPiece;
+            movePiece.FirstMove();
+
+            copiedPiece = (Pieces)movePiece;
+        }
+        newBoard.SetPieceAtPosition(move, copiedPiece);
+        newBoard.SetPieceAtPosition(oldGridPosition, null);
+
+       
+        return newBoard;
+    }
+    /*
     public override void MovePiece()
     {
         amount = 0;
@@ -126,9 +322,8 @@ public class MiniMaxAI : AbstractAIPlayer
         canCastle = false;
         GameStateManager.Instance.NextTurn();
     }
+    */
 
-  
-    int finalScore = 0;
 
     /*
     public override int SearchingMethod(Pieces[,] boardState, int pDepth, bool whiteMove)
@@ -447,19 +642,7 @@ public class MiniMaxAI : AbstractAIPlayer
     */
 
 
-    public override int SearchingMethod(Pieces[,] boardState, int pDepth, bool whiteMove)
-    {
 
-        foreach(Pieces piece in boardState)
-        {
-            piece.GetPseudoLegalMoves();
-
-
-
-        }
-        return 0;
-
-    }
 
 
 

@@ -1,28 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+
+/// <summary>
+/// Shown board on map
+/// </summary>
 
 public class GameBoard : MonoBehaviour
 {
 
     public static GameBoard Instance { get; private set; }
 
-    public Pieces[,] chessBoardPositions;
+    public ChessBoard chessBoardPositions;
 
     //A chessBoard is 8 by 8
     public const int SIZE = 8;
 
-    public GameObject QueenB;
-    public GameObject QueenW;
-    public GameObject KnightB;
-    public GameObject KnightW;
-    public GameObject BishopB;
-    public GameObject BishopW;
-    public GameObject RookB;
-    public GameObject RookW;
-
-
-
+    public UnityEvent boardChange;
 
 
     private void Awake()
@@ -34,186 +29,117 @@ public class GameBoard : MonoBehaviour
         }
 
         Instance = this;
+        chessBoardPositions = new ChessBoard();
 
-        chessBoardPositions = new Pieces[SIZE, SIZE];
+        SetupBoard();
     }
-
-
-
-
-    public bool IsPieceAtLocation(Vector2Int gridPosition)
+    
+    public void SetupBoard()
     {
-        return chessBoardPositions[gridPosition.x, gridPosition.y] != null;
-    }
-
-    public bool IsSameSidePieceAtLocation(Vector2Int gridPosition, bool isWhite)
-    {
-        return chessBoardPositions[gridPosition.x, gridPosition.y].isWhite == isWhite;
-    }
-
-    public bool IsOtherSidePieceAtLocation(Vector2Int gridPosition, bool isWhite)
-    {
-        if (chessBoardPositions[gridPosition.x, gridPosition.y] == null) return false;
-
-        return chessBoardPositions[gridPosition.x, gridPosition.y].isWhite != isWhite;
-    }
-
-    public bool IsPieceAtLocation(Vector2Int gridPosition, out bool isWhite)
-    {
-        Pieces piece = chessBoardPositions[gridPosition.x, gridPosition.y];
-
-        if (piece == null)
+        for (int x = 0; x < GameBoard.SIZE; x++)
         {
-            isWhite = false;
-            return false;
-        }
-
-        isWhite = piece.isWhite;
-        return true;
-    }
-
-    public void RemovePieceFromLocation(Vector2Int gridPosition)
-    {
-        Pieces oldPiece = chessBoardPositions[gridPosition.x, gridPosition.y];
-
-        Destroy(oldPiece.gameObject);
-        chessBoardPositions[gridPosition.x, gridPosition.y] = null;
-
-    }
-
-
-    public void SetPieceAtLocation(Vector2Int gridPosition, Pieces piece, bool destroy = true)
-    {
-        if (piece != null)
-        {
-            Pieces oldPiece = chessBoardPositions[gridPosition.x, gridPosition.y];
-
-            if (oldPiece != null && destroy) Destroy(oldPiece.gameObject);
-        }
-
-
-        chessBoardPositions[gridPosition.x, gridPosition.y] = piece;
-    }
-
-    //I HATE PROMOTIONS
-    public Pieces SetPieceAtLocation(Vector2Int gridPosition, int pieceNumber)
-    {
-        switch(pieceNumber)
-        {
-            case 1:
-                GameObject queenPrefab = Instantiate(QueenW, new Vector3(-100, 0, 0), Quaternion.identity);
-                Queen queen = queenPrefab.GetComponent<Queen>();
-                queen.gridPosition = gridPosition;
-                queen.isWhite = true;
-                queen.SetGridPosition(gridPosition);
-
-                return queen;
-                break;
-            case 2:
-                GameObject knightPrefab = Instantiate(KnightW, new Vector3(-100, 0, 0), Quaternion.identity);
-                Knight knight = knightPrefab.GetComponent<Knight>();
-                knight.gridPosition = gridPosition;
-                knight.isWhite = true;
-                knight.SetGridPosition(gridPosition);
-
-                return knight;
-                break;
-            case 3:
-                GameObject bishopPrefab = Instantiate(BishopW, new Vector3(-100, 0, 0), Quaternion.identity);
-                Bishop bishop = bishopPrefab.GetComponent<Bishop>();
-                bishop.gridPosition = gridPosition;
-                bishop.isWhite = true;
-                bishop.SetGridPosition(gridPosition);
-                return bishop;
-                break;
-            case 4:
-                GameObject rookPrefab = Instantiate(RookW, new Vector3(-100, 0, 0), Quaternion.identity);
-                Rook rook = rookPrefab.GetComponent<Rook>();
-                rook.gridPosition = gridPosition;
-                rook.isWhite = true;
-                rook.SetGridPosition(gridPosition);
-                return rook;
-                break;
-
-            case -1:
-                GameObject queenPrefabB = Instantiate(QueenB, new Vector3(-100, 0, 0), Quaternion.identity);
-                Queen queenB = queenPrefabB.GetComponent<Queen>();
-                queenB.gridPosition = gridPosition;
-                queenB.isWhite = false;
-                queenB.SetGridPosition(gridPosition);
-                return queenB;
-                break;
-            case -2:
-                GameObject knightPrefabB = Instantiate(KnightB, new Vector3(-100, 0, 0), Quaternion.identity);
-                Knight knightB = knightPrefabB.GetComponent<Knight>();
-                knightB.gridPosition = gridPosition;
-                knightB.isWhite = false;
-                knightB.SetGridPosition(gridPosition);
-                return knightB;
-                break;
-            case -3:
-                GameObject bishopPrefabB = Instantiate(BishopB, new Vector3(-100, 0, 0), Quaternion.identity);
-                Bishop bishopB = bishopPrefabB.GetComponent<Bishop>();
-                bishopB.gridPosition = gridPosition;
-                bishopB.isWhite = false;
-                bishopB.SetGridPosition(gridPosition);
-                return bishopB;
-                break;
-            case -4:
-                GameObject rookPrefabB = Instantiate(RookB, new Vector3(-100, 0, 0), Quaternion.identity);
-                Rook rookB = rookPrefabB.GetComponent<Rook>();
-                rookB.gridPosition = gridPosition;
-                rookB.isWhite = false;
-                rookB.SetGridPosition(gridPosition);
-                return rookB;
-                break;
-        }
-
-        return null;
-    }
-
-    public bool TryGetPieceAtLocation(Vector2Int gridPosition, out Pieces piece )
-    {
-        if (IsPieceAtLocation(gridPosition))
-        {
-            piece = chessBoardPositions[gridPosition.x, gridPosition.y];
-            return true;
-        }
-
-        piece = null;
-        return false;
-    }
-
-    public bool TryGetSamePieceAtLocation(Vector2Int gridPosition, bool isWhite, out Pieces piece)
-    {
-        try
-        {
-            if (IsSameSidePieceAtLocation(gridPosition, isWhite))
+            for (int y = 0; y < GameBoard.SIZE; y++)
             {
-                piece = chessBoardPositions[gridPosition.x, gridPosition.y];
-                return true;
+
+                Vector2Int gridPosition = new Vector2Int(x, y);
+                ColourChessSide side = ColourChessSide.Unassigned;
+                Pieces pieceToPut = null;
+
+                
+
+
+                switch(y)
+                {
+                    case 0:
+                        side = ColourChessSide.White;
+                        break;
+                    case 7:
+                        side = ColourChessSide.Black;
+                        break;
+
+                    case 1:
+                        side = ColourChessSide.White;
+                        Pawns pawns = new();
+                        pawns.notMoved = true;
+                        pieceToPut = pawns;
+                        break;
+                    case 6:
+                        side = ColourChessSide.Black;
+                        Pawns pawn = new Pawns();
+                        pawn.notMoved = true;
+                        pieceToPut = pawn;
+                        break;
+                }
+
+                if (y == 0 || y == 7)
+                {
+
+                    switch (x)
+                    {
+                        case 0:
+                        case 7:
+                            pieceToPut = new Rook();
+                            break;
+
+                        case 1:
+                        case 6:
+                            pieceToPut = new Knight();
+                            break;
+
+                        case 2:
+                        case 5:
+                            pieceToPut = new Bishop();
+                            break;
+
+                        case 3:
+                            pieceToPut = new Queen();
+                            break;
+
+                        case 4:
+                            pieceToPut = new King();
+                            break;
+
+                        default:
+                            pieceToPut = null;
+                            break;
+                    }
+                }
+
+                //Debug.Log($"{pieceToPut} + { side} ");
+
+                if (pieceToPut == null || side == ColourChessSide.Unassigned) continue;
+
+                pieceToPut.Awake();
+                pieceToPut.Start();
+                PutPieceOnBoard(pieceToPut, gridPosition, side);
             }
         }
-        catch(System.Exception e)
-        {
-            piece = null;
-            return false;
-        }
-
-        piece = null;
-        return false;
     }
 
-    public bool TryGetOtherPieceAtLocation(Vector2Int gridPosition, bool isWhite, out Pieces piece)
+
+
+    public void PutPieceOnBoard(Pieces piece, Vector2Int gridPosition, ColourChessSide side = ColourChessSide.White)
     {
-        if (IsOtherSidePieceAtLocation(gridPosition, isWhite))
-        {
-            piece = chessBoardPositions[gridPosition.x, gridPosition.y];
-            return true;
-        }
+        piece.colourPiece = side;
+        piece.SetGridPosition(gridPosition);
+        piece.board = chessBoardPositions;
+        chessBoardPositions.SetPieceAtPosition(gridPosition, piece);
 
-        piece = null;
-        return false;
+        if (piece is King) chessBoardPositions.setKing((King)piece);
     }
+
+
+
+    public void ChangeBoard(ChessBoard newBoard)
+    {
+        chessBoardPositions = newBoard;
+
+        //KEEP DOWN, FIRST LOGIC THAN CHANGE BOARD VISUALS!!!!
+        boardChange?.Invoke();
+
+    }
+
+
+    
 
 }

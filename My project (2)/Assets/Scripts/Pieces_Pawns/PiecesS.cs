@@ -2,10 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ColourChessSide { White, Black}
+public enum ColourChessSide { White, Black, Unassigned}
 
 
-public abstract class Pieces : MonoBehaviour
+public class PiecesS : MonoBehaviour { }
+
+public abstract class Pieces
 {
 
 
@@ -25,10 +27,28 @@ public abstract class Pieces : MonoBehaviour
     public ColourChessSide colourPiece;
 
 
+    public Pieces()
+    {
+
+
+        Awake();
+        Start();
+
+    }
+
+
     public void Awake()
     {
         moveDirections = new List<Vector2Int>();
     }
+
+    public virtual void Start() { }
+
+    public virtual int GetValuePiece()
+    {
+        return 0;
+    }
+
 
     public virtual List<Vector2Int> GetPseudoLegalMoves()
     {
@@ -36,7 +56,7 @@ public abstract class Pieces : MonoBehaviour
 
         if (moveDirections == null)
         {
-            Debug.LogError($"{name} has no Directions to move to");
+            //Debug.LogError($"{name} has no Directions to move to");
             return null;
         }
 
@@ -46,7 +66,7 @@ public abstract class Pieces : MonoBehaviour
             for (int i = 1; i <= maxMoveAmount; i++)
             {
                 Vector2Int nextGridPoint = new Vector2Int(gridPosition.x + (i * direction.x), gridPosition.y + (i * direction.y));
-
+                
 
                 //Piece is outside board, so any spot further than this one will also be outside of the board
                 if (!IsInsideBoard(nextGridPoint)) break;
@@ -68,7 +88,8 @@ public abstract class Pieces : MonoBehaviour
                     if (pieceAtCheckingPosition.colourPiece != this.colourPiece)
                     {
                         movePositions.Add(nextGridPoint);
-                        continue;
+                        //Was continue, have to break, as it's the last position to move to
+                        break;
                     }
 
                     //Piece is the same colour as this piece so we can't go any further and can check in different direction
@@ -80,9 +101,18 @@ public abstract class Pieces : MonoBehaviour
             }
         }
 
+
+        //Debug.Log(movePositions[0]);
         //Returns all pseudoPositions it can move to
         return movePositions;
 
+    }
+
+    public virtual Pieces CopyPiece()
+    {
+
+        Debug.LogWarning("USED VIRTUAL METHOD");
+        return null;
     }
 
     protected bool IsInsideBoard(Vector2Int gridPosition)
@@ -96,46 +126,53 @@ public abstract class Pieces : MonoBehaviour
         return true;
     }
 
+
     public virtual List<Vector2Int> ConvertPseudoToLegalMoves(List<Vector2Int> pseudoLegalMoves)
     {
-        List<Vector2Int> legalMoves = new List<Vector2Int>();
 
-        if (pseudoLegalMoves.Count == 0) return legalMoves;
-
-        foreach(Vector2Int move in pseudoLegalMoves)
+        for (int i = pseudoLegalMoves.Count - 1; i >= 0; i--)
         {
-         //   Pieces[,] newBoardState = GameBoard.Instance.chessBoardPositions.Clone() as Pieces[,];
+            Vector2Int move = pseudoLegalMoves[i];
 
-            Vector2Int oldGridPosition = this.gridPosition;
+            //Put on board
+            ChessBoard newBoard = GetNewBoard(this, board, move);
 
-            GameBoard.Instance.TryGetPieceAtLocation(move, out Pieces oldPiece);
+            King king = newBoard.getKing(this.colourPiece);
 
-            GameBoard.Instance.SetPieceAtLocation(oldGridPosition, null, false);
-
-            GameBoard.Instance.SetPieceAtLocation(move, this, false);
-
-          //  newBoardState[this.gridPosition.x, this.gridPosition.y] = null;
-          //  newBoardState[move.x, move.y] = this;
-
-            foreach(Pieces piece in GameBoard.Instance.chessBoardPositions)
+            //Check if king is in check
+            if (king.InCheck())
             {
-                if (piece is King)
-                {
-                    King king = (King)piece;
-
-                    if ((king.isWhite == isWhite) && !king.InCheck()) legalMoves.Add(move);
-                }
+                pseudoLegalMoves.RemoveAt(i);
             }
 
-            GameBoard.Instance.SetPieceAtLocation(oldGridPosition, this, false);
-            GameBoard.Instance.SetPieceAtLocation(move, oldPiece, false);
         }
 
-        return legalMoves;
+
+        return pseudoLegalMoves;
     }
 
-    public List<Vector2Int> GetLegalMoves(Vector2Int gridPoint)
+
+    private ChessBoard GetNewBoard(Pieces piece, ChessBoard oldBoard, Vector2Int move)
     {
+        Vector2Int oldGridPosition = piece.gridPosition;
+
+
+
+        ChessBoard newBoard = oldBoard.CopyBoard();
+
+        Pieces copiedPiece = newBoard.GetPieceFromPosition(oldGridPosition);
+
+
+        newBoard.SetPieceAtPosition(move, copiedPiece);
+        newBoard.SetPieceAtPosition(oldGridPosition, null);
+
+
+        return newBoard;
+    }
+
+    public List<Vector2Int> GetLegalMoves()
+    {
+       
         return ConvertPseudoToLegalMoves(GetPseudoLegalMoves());
     }
 
@@ -143,7 +180,6 @@ public abstract class Pieces : MonoBehaviour
     public virtual void SetGridPosition(Vector2Int newPosition)
     {
         gridPosition = newPosition;
-        this.gameObject.transform.position = new Vector3(newPosition.x, 0, newPosition.y);
     }
 
 

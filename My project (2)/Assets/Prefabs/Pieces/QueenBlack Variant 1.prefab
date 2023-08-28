@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 6334188686828638824, guid: 7e1864ce751367845980ebf6a8dc2379,
         type: 3}
       propertyPath: m_Name
-      value: QueenBlack
+      value: QueenBlack Variant 1
       objectReference: {fileID: 0}
     - target: {fileID: 6334188686828638827, guid: 7e1864ce751367845980ebf6a8dc2379,
         type: 3}
@@ -94,5 +94,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f07a0c5ed23a37b4982be7c1526536c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  board: {fileID: 0}
   gridPosition: {x: 0, y: 0}
-  isWhite: 0
+  colourPiece: 1

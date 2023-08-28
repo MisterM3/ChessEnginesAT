@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+public class ChessBoardS : MonoBehaviour { }
+
 /// <summary>
 /// Board with only scripts and functionallity
 /// </summary>
-public class ChessBoard : MonoBehaviour
+/// 
+
+
+public class ChessBoard
 {
+
     private Pieces[,] chessBoard;
 
     private King blackKing;
@@ -20,7 +27,8 @@ public class ChessBoard : MonoBehaviour
     {
 
 
-        chessBoard = new Pieces[SIZE, SIZE];
+        Awake();
+
     }
 
 
@@ -30,10 +38,6 @@ public class ChessBoard : MonoBehaviour
         chessBoard = new Pieces[SIZE, SIZE];
     }
 
-    public bool IsSameSidePieceAtLocation(Vector2Int gridPosition, bool isWhite)
-    {
-        return chessBoard[gridPosition.x, gridPosition.y].isWhite == isWhite;
-    }
 
     public bool IsSquareEmpty(Vector2Int gridPosition)
     {
@@ -48,9 +52,20 @@ public class ChessBoard : MonoBehaviour
     public void SetPieceAtPosition(Vector2Int gridPosition, Pieces pieceToPutInPosition)
     {
         chessBoard[gridPosition.x, gridPosition.y] = pieceToPutInPosition;
+
+        if (pieceToPutInPosition == null) return;
+        pieceToPutInPosition.gridPosition = gridPosition; 
+        pieceToPutInPosition.board = this;
+    }
+
+    public Pieces[,] GetChessBoard()
+    {
+        return chessBoard;
     }
 
 
+
+    //Rewrite to make a new piece
     public ChessBoard CopyBoard()
     {
         ChessBoard copiedBoard = new ChessBoard();
@@ -62,13 +77,46 @@ public class ChessBoard : MonoBehaviour
 
                 Vector2Int gridPosition = new Vector2Int(x, y);
 
-                Pieces pieceToCopy = this.chessBoard[x, y];
+
+                
+
+                Pieces piece = chessBoard[x, y];
+
+
+                if (piece == null) continue;
+
+
+                Pieces pieceToCopy = piece.CopyPiece();
+
+                if (pieceToCopy is King) copiedBoard.setKing((King)pieceToCopy);
+
 
                 copiedBoard.SetPieceAtPosition(gridPosition, pieceToCopy);
             }
         }
 
         return copiedBoard;
+    }
+
+    public override string ToString()
+    {
+        return "tea";
+    }
+
+    public King getKing(ColourChessSide side)
+    {
+        if (side == ColourChessSide.White) return whiteKing;
+        if (side == ColourChessSide.Black) return blackKing;
+
+        return null;
+    }
+
+    public void setKing(King king)
+    {
+        if (king.colourPiece == ColourChessSide.White) whiteKing = king;
+        else if (king.colourPiece == ColourChessSide.Black) blackKing = king;
+
+        else Debug.LogError("No king to set");
     }
 
 

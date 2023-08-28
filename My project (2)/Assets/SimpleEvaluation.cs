@@ -6,6 +6,11 @@ public class SimpleEvaluation : MonoBehaviour, IEvaluation
 {
     public int Evaluate(Pieces[,] boardToEvaluate)
     {
+        return 0;
+    }
+    /*
+    public int Evaluate(Pieces[,] boardToEvaluate)
+    {
         int score = 0;
 
 
@@ -91,4 +96,6 @@ public class SimpleEvaluation : MonoBehaviour, IEvaluation
         Debug.LogWarning(score);
         return score;
     }
+
+    */
 }

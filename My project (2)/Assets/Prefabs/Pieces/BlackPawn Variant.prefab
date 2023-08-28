@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 6763079924566301258, guid: 7adf8f7c9b5b4a142867a6346131a422,
         type: 3}
       propertyPath: m_Name
-      value: BlackPawn
+      value: BlackPawn Variant
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7adf8f7c9b5b4a142867a6346131a422, type: 3}
@@ -93,7 +93,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96364b4f13db11e40962209ae5860e22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  board: {fileID: 0}
   gridPosition: {x: 0, y: 6}
-  isWhite: 0
+  colourPiece: 1
   notMoved: 1
   enPassantAble: 0
+  dieTroughEnPassent: 0
