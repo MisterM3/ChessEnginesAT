@@ -178,9 +178,11 @@ public class King : Pieces, ISpecialFirstMove
 
                 Pieces piece = board.GetPieceFromPosition(nextGridPoint);
 
-                if (piece.colourPiece == this.colourPiece) continue;
+                if (piece.colourPiece == this.colourPiece) break;
 
                 seePieces.Add(piece);
+
+                break;
                 
             }
         }

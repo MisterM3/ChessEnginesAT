@@ -26,6 +26,7 @@ public class MiniMaxAI : AbstractAIPlayer
     {
 
         int score = 0;
+        int scoreMoves = 0;
 
 
         foreach (Pieces piece in boardState.GetChessBoard())
@@ -33,20 +34,33 @@ public class MiniMaxAI : AbstractAIPlayer
             if (piece == null) continue;
 
             if (piece.colourPiece == ColourChessSide.White)
+            {
                 score += piece.GetValuePiece();
-
+                scoreMoves += piece.GetPseudoLegalMoves().Count;
+            }
             if (piece.colourPiece == ColourChessSide.Black)
+            {
                 score -= piece.GetValuePiece();
+                scoreMoves -= piece.GetPseudoLegalMoves().Count;
+            }
 
-            
 
         }
+
+        scoreMoves /= 4;
+
+        score += scoreMoves;
 
         if (side == ColourChessSide.White)
             score *= -1;
 
+            
+
         return score;
     }
+
+    
+
 
     int amount = 0;
 
@@ -152,7 +166,9 @@ public class MiniMaxAI : AbstractAIPlayer
 
 
 
-            List<Vector2Int> moves = piece.GetPseudoLegalMoves();
+            //List<Vector2Int> moves = piece.GetPseudoLegalMoves();
+
+            List<Vector2Int> moves = piece.GetLegalMoves();
 
             if (moves == null || moves.Count == 0) continue;
             foreach (Vector2Int move in moves)
@@ -184,7 +200,7 @@ public class MiniMaxAI : AbstractAIPlayer
                      int randomRange = Random.Range(0, 101);
 
                   //  Debug.Log(randomRange);
-                    if (randomRange <= 50)
+                    if (randomRange >= 50)
                     {
                         bestBoard = newBoard.CopyBoard();
                     }

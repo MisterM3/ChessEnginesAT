@@ -139,8 +139,9 @@ public abstract class Pieces
 
             King king = newBoard.getKing(this.colourPiece);
 
+
             //Check if king is in check
-            if (king.InCheck())
+            if (king == null || king.InCheck())
             {
                 pseudoLegalMoves.RemoveAt(i);
             }
