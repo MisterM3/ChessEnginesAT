@@ -206,6 +206,47 @@ public class MiniMaxAI : AbstractAIPlayer
                     }
                 }
             }
+
+
+            //Castling+Promotions
+            List<ChessBoard> specialBoards = new List<ChessBoard>();
+            specialBoards = boardState.GetCastlingMoves(side);
+
+            if (specialBoards == null || specialBoards.Count == 0) continue;
+
+            foreach(ChessBoard board in specialBoards)
+            {
+                ChessBoard newBoard = board.CopyBoard();
+
+                amount++;
+
+                if (side == ColourChessSide.White) score = -SearchingMethod(newBoard, pDepth - 1, ColourChessSide.Black);
+                else if (side == ColourChessSide.Black) score = -SearchingMethod(newBoard, pDepth - 1, ColourChessSide.White);
+
+
+                if (score > max)
+                {
+                    max = score;
+                    Debug.Log(score);
+
+                    if (pDepth == depth)
+                    {
+                        bestBoard = newBoard.CopyBoard();
+                    }
+                }
+
+                //Testing
+                if (score == max && pDepth == depth)
+                {
+                    int randomRange = Random.Range(0, 101);
+
+                    //  Debug.Log(randomRange);
+                    if (randomRange >= 50)
+                    {
+                        bestBoard = newBoard.CopyBoard();
+                    }
+                }
+            }
         }
 
         return max;

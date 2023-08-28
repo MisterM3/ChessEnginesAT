@@ -54,7 +54,7 @@ public class ChessBoard
         chessBoard[gridPosition.x, gridPosition.y] = pieceToPutInPosition;
 
         if (pieceToPutInPosition == null) return;
-        pieceToPutInPosition.gridPosition = gridPosition; 
+        pieceToPutInPosition.gridPosition = gridPosition;
         pieceToPutInPosition.board = this;
     }
 
@@ -70,7 +70,7 @@ public class ChessBoard
     {
         ChessBoard copiedBoard = new ChessBoard();
 
-        for(int x = 0; x < SIZE; x++)
+        for (int x = 0; x < SIZE; x++)
         {
             for (int y = 0; y < SIZE; y++)
             {
@@ -78,7 +78,7 @@ public class ChessBoard
                 Vector2Int gridPosition = new Vector2Int(x, y);
 
 
-                
+
 
                 Pieces piece = chessBoard[x, y];
 
@@ -120,5 +120,80 @@ public class ChessBoard
     }
 
 
+    //Mess (Remember to put in checkcheck after catling)
+    public List<ChessBoard> GetCastlingMoves(ColourChessSide side)
+    {
+        List<ChessBoard> boardsWithCastling = new List<ChessBoard>();
+
+        ChessBoard copy = this.CopyBoard();
+
+        int sideNumber = 4;
+
+        if (side == ColourChessSide.White)
+        {
+            if (copy.whiteKing.hasMoved) return null;
+            sideNumber = 0;
+        }
+
+        if (side == ColourChessSide.Black)
+        {
+            if (copy.blackKing.hasMoved) return null;
+            sideNumber = 7;
+        }
+
+
+
+        if (copy.IsSquareEmpty(new Vector2Int(1, sideNumber)) &&
+            copy.IsSquareEmpty(new Vector2Int(2, sideNumber)) &&
+            copy.IsSquareEmpty(new Vector2Int(3, sideNumber)))
+        {
+            Pieces checkPiece = copy.GetPieceFromPosition(new Vector2Int(0, sideNumber));
+
+            if (checkPiece != null && checkPiece is Rook)
+            {
+                Rook rook = (Rook)checkPiece;
+                if (!rook.hasMoved)
+                {
+                    ChessBoard longCastle = this.CopyBoard();
+
+                    longCastle.SetPieceAtPosition(new Vector2Int(2, sideNumber), whiteKing.CopyPiece());
+                    longCastle.SetPieceAtPosition(new Vector2Int(3, sideNumber), rook.CopyPiece());
+                    longCastle.SetPieceAtPosition(new Vector2Int(0, sideNumber), null);
+                    longCastle.SetPieceAtPosition(new Vector2Int(4, sideNumber), null);
+
+                    boardsWithCastling.Add(longCastle);
+                }
+            }
+        }
+
+
+
+        if (copy.IsSquareEmpty(new Vector2Int(6, sideNumber)) &&
+            copy.IsSquareEmpty(new Vector2Int(5, sideNumber)))
+        {
+            Pieces checkPiece = copy.GetPieceFromPosition(new Vector2Int(7, sideNumber));
+
+            if (checkPiece != null && checkPiece is Rook)
+            {
+                Rook rook = (Rook)checkPiece;
+                if (!rook.hasMoved)
+                {
+                    ChessBoard shortCastle = this.CopyBoard();
+
+                    shortCastle.SetPieceAtPosition(new Vector2Int(6, sideNumber), whiteKing.CopyPiece());
+                    shortCastle.SetPieceAtPosition(new Vector2Int(5, sideNumber), rook.CopyPiece());
+                    shortCastle.SetPieceAtPosition(new Vector2Int(7, sideNumber), null);
+                    shortCastle.SetPieceAtPosition(new Vector2Int(4, sideNumber), null);
+
+                    boardsWithCastling.Add(shortCastle);
+                }
+            }
+        }
+        return boardsWithCastling;
+    }
 
 }
+
+
+
+

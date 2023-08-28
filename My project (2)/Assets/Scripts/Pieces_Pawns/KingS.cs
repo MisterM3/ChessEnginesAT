@@ -54,6 +54,8 @@ public class King : Pieces, ISpecialFirstMove
         //Check Pawn
         if (PawnCheck()) return true;
 
+        if (KingCheck()) return true;
+
         return false;
     }
 
@@ -134,14 +136,14 @@ public class King : Pieces, ISpecialFirstMove
 
         if (this.colourPiece == ColourChessSide.White)
         {
-            pawnCheck.Add(new Vector2Int(-1, -1));
-            pawnCheck.Add(new Vector2Int(1, -1));
+            pawnCheck.Add(new Vector2Int(-1, 1));
+            pawnCheck.Add(new Vector2Int(1, 1));
         }
 
         if (this.colourPiece == ColourChessSide.Black)
         {
-            pawnCheck.Add(new Vector2Int(-1, 1));
-            pawnCheck.Add(new Vector2Int(1, 1));
+            pawnCheck.Add(new Vector2Int(-1, -1));
+            pawnCheck.Add(new Vector2Int(1, -1));
         }
         List<Pieces> pieces = CheckChecking(pawnCheck, 1);
 
@@ -150,6 +152,31 @@ public class King : Pieces, ISpecialFirstMove
         foreach (Pieces piece in pieces)
         {
             if (piece is Pawns) return true;
+        }
+
+        return false;
+    }
+
+    private bool KingCheck()
+    {
+        List<Vector2Int> kingCheck = new List<Vector2Int>();
+
+        kingCheck.Add(new Vector2Int(1, 0));
+        kingCheck.Add(new Vector2Int(-1, 0));
+        kingCheck.Add(new Vector2Int(0, 1));
+        kingCheck.Add(new Vector2Int(0, -1));
+        kingCheck.Add(new Vector2Int(-1, -1));
+        kingCheck.Add(new Vector2Int(-1, 1));
+        kingCheck.Add(new Vector2Int(1, -1));
+        kingCheck.Add(new Vector2Int(1, 1));
+
+        List<Pieces> pieces = CheckChecking(kingCheck, 1);
+
+        if (pieces == null || pieces.Count == 0) return false;
+
+        foreach (Pieces piece in pieces)
+        {
+            if (piece is King) return true;
         }
 
         return false;
