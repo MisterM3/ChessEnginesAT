@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FakeEvaluation : MonoBehaviour, IEvaluation
 {
-    public int Evaluate(Pieces[,] boardToEvaluate)
+    public int Evaluate(ChessBoard boardToEvaluate)
     {
 
         return 1;

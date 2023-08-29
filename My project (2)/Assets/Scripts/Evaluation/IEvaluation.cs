@@ -4,5 +4,5 @@ using UnityEngine;
 using System;
 public interface IEvaluation
 {
-    int Evaluate(Pieces[,] boardToEvaluate);
+    int Evaluate(ChessBoard boardToEvaluate);
 }

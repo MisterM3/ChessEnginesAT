@@ -39,14 +39,14 @@ public class GameStateManager : MonoBehaviour
     private void Update()
     {
       //  if (cooldown < 0)
-        {
-              if (Input.GetKeyDown(KeyCode.T))
-              {  
+        
+             // if (Input.GetKeyDown(KeyCode.T))
+           //   {  
             MakeTurn();
             //     MakeTurn();
-            }
+            
          //   cooldown = timer;
-        }
+        
         //cooldown -= Time.deltaTime;
     }
 

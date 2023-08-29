@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(IEvaluation))]
-public class MiniMaxAI : AbstractAIPlayer
+public class NegaMaxPruning : AbstractAIPlayer
 {
 
 
@@ -16,9 +16,6 @@ public class MiniMaxAI : AbstractAIPlayer
     int finalScore = 0;
 
     IEvaluation evaluation;
-
-
-    public bool pruning = false;
 
     public void Start()
     {
@@ -35,7 +32,8 @@ public class MiniMaxAI : AbstractAIPlayer
     {
         int score = evaluation.Evaluate(boardState);
 
-
+     //   if (side == ColourChessSide.White)
+       //     score *= -1;
 
         return score;
     }
@@ -44,8 +42,6 @@ public class MiniMaxAI : AbstractAIPlayer
 
 
     int amount = 0;
-
-
 
 
 
@@ -69,14 +65,9 @@ public class MiniMaxAI : AbstractAIPlayer
         GameBoard.Instance.ChangeBoard(bestBoard);
     }
 
+    
 
     public override int SearchingMethod(ChessBoard boardState, int pDepth, ColourChessSide side)
-    {
-        return SearchingMethod(boardState, pDepth, side, int.MinValue, int.MaxValue);
-    }
-
-
-    public int SearchingMethod(ChessBoard boardState, int pDepth, ColourChessSide side, int alpha, int beta)
     {
 
         if (pDepth == 0)
@@ -150,8 +141,8 @@ public class MiniMaxAI : AbstractAIPlayer
 
                 amount++;
 
-                if (side == ColourChessSide.White) score = -SearchingMethod(newBoard, pDepth - 1, ColourChessSide.Black, -beta, -alpha);
-                else if (side == ColourChessSide.Black) score = -SearchingMethod(newBoard, pDepth - 1, ColourChessSide.White, -beta, -alpha);
+                if (side == ColourChessSide.White) score = -SearchingMethod(newBoard, pDepth - 1, ColourChessSide.Black);
+                else if (side == ColourChessSide.Black) score = -SearchingMethod(newBoard, pDepth - 1, ColourChessSide.White);
 
                 //Debug.Log(score);
 
@@ -176,13 +167,6 @@ public class MiniMaxAI : AbstractAIPlayer
                     {
                         bestBoard = newBoard.CopyBoard();
                     }
-                }
-
-                if (pruning)
-                {
-                    alpha = Mathf.Max(alpha, max);
-
-                    if (alpha >= beta) break;
                 }
             }
 
@@ -234,7 +218,7 @@ public class MiniMaxAI : AbstractAIPlayer
             }
         }
 
-        return max;
+        return score;
     }
 
 

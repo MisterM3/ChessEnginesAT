@@ -771,6 +771,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   depth: 3
   side: 1
+  pruning: 1
 --- !u!4 &977481156
 Transform:
   m_ObjectHideFlags: 0
@@ -795,7 +796,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 977481154}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c5719fc0f1364b40a55f7cf17dc0aa3, type: 3}
+  m_Script: {fileID: 11500000, guid: 6d90764e4a65697459217f9cea0183d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1227054046
@@ -831,6 +832,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   depth: 3
   side: 0
+  pruning: 1
 --- !u!4 &1227054048
 Transform:
   m_ObjectHideFlags: 0
