@@ -20,7 +20,6 @@ public abstract class AbstractAIPlayer : AbstractPlayer
         bestGridPosition = new List<Vector2Int>();
         bestPieceToMove = new List<Pieces>();
 
-        Debug.LogError("ERFAF");
         evaluationMethodStragety = GetComponent<IEvaluation>();
         Debug.LogError(evaluationMethodStragety);
     }
@@ -28,8 +27,9 @@ public abstract class AbstractAIPlayer : AbstractPlayer
 
 
     //Looks horrendious remake if possible
-    public abstract int SearchingMethod(Pieces[,] boardState, int depth, bool WhiteMove);
+    public abstract int SearchingMethod(ChessBoard boardState, int depth, ColourChessSide side);
 
-    public abstract int EvaluateBoard(Pieces[,] boardState);
+
+    public abstract int EvaluateBoard(ChessBoard boardState);
 
 }

@@ -93,5 +93,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475b89904bdea6f49b4d5984b2321c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  board: {fileID: 0}
   gridPosition: {x: 0, y: 0}
-  isWhite: 0
+  colourPiece: 1

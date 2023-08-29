@@ -7,17 +7,20 @@ public class MovePieces : AbstractPlayer
 
     Pieces activePiece = null;
 
-    public GameBoard board;
+    public ChessBoard board;
 
     public ChessBoardVisual visual;
 
-    [SerializeField] protected bool isWhite;
+    [SerializeField] protected ColourChessSide colourSide;
 
+    public bool isWhite = true;
 
     // Start is called before the first frame update
     void Start()
     {
         visual = GameObject.FindObjectOfType<ChessBoardVisual>();
+
+        board = GameBoard.Instance.chessBoardPositions;
     }
 
     // Update is called once per frame
@@ -33,7 +36,54 @@ public class MovePieces : AbstractPlayer
 
     }
 
+    public override void MovePiece()
+    {
+        Vector2Int mousePosition = MouseRay.GetMouseGridPosition();
 
+        if (activePiece == null)
+        {
+            Pieces piece = board.GetPieceFromPosition(mousePosition);
+
+
+            if (piece.colourPiece == colourSide)
+            {
+                activePiece = piece;
+                visual.ActivateMoveVisuals(activePiece.GetLegalMoves());
+            }
+
+            return;
+        }
+
+        //If a piece is selected
+
+        List<Vector2Int> positions = activePiece.GetLegalMoves();
+
+
+        foreach (Vector2Int position in positions)
+        {
+            if (position == mousePosition)
+            {
+                board.SetPieceAtPosition(activePiece.gridPosition, null);
+
+                activePiece.SetGridPosition(position);
+                board.SetPieceAtPosition(position, activePiece);
+                Debug.Log("true2");
+                visual.DeActivateAllMoveVisual();
+
+                visual.MovePieceVisual();
+
+                activePiece = null;
+
+                GameStateManager.Instance.NextTurn();
+                return;
+            }
+        }
+        visual.DeActivateAllMoveVisual();
+        activePiece = null;
+    }
+
+
+    /*
     public override void MovePiece()
     {
         Vector2Int mousePosition = MouseRay.GetMouseGridPosition();
@@ -76,6 +126,7 @@ public class MovePieces : AbstractPlayer
         visual.DeActivateAllMoveVisual();
         activePiece = null;
     }
+    */
 }
 
 

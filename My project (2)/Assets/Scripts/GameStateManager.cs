@@ -39,23 +39,24 @@ public class GameStateManager : MonoBehaviour
     private void Update()
     {
       //  if (cooldown < 0)
-        {
-              if (Input.GetKeyDown(KeyCode.T))
-              {  
+        
+             // if (Input.GetKeyDown(KeyCode.T))
+           //   {  
             MakeTurn();
             //     MakeTurn();
-            }
+            
          //   cooldown = timer;
-        }
+        
         //cooldown -= Time.deltaTime;
     }
 
+    /*
     public bool InCheck(Pieces[,] board, Vector2Int GridPosition, bool isWhite)
     {
 
         foreach (Pieces isKing in board)
         {
-            if (isKing is King && isKing.isWhite == isWhite)
+            if (isKing is King && isKing.colourPiece == isWhite)
             {
                 King king = (King)isKing;
 
@@ -67,6 +68,8 @@ public class GameStateManager : MonoBehaviour
        return false;
 
     }
+
+    */
 
     public King getKing(bool isWhite)
     {
@@ -93,6 +96,9 @@ public class GameStateManager : MonoBehaviour
 
         if (isWhiteTurn) whitePlayer.MovePiece();
         else blackPlayer.MovePiece();
+
+
+        NextTurn();
     }
 
 
