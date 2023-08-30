@@ -27,7 +27,7 @@ public class MovePieces : AbstractPlayer
     void Update()
     {
 
-        if (Input.GetMouseButtonDown(0) && GameStateManager.Instance.IsWhiteTurn() == isWhite)
+        if (Input.GetMouseButtonDown(0) && GameStateManager.Instance.GetIsWhiteTurn() == isWhite)
         {
             MovePiece();
         }

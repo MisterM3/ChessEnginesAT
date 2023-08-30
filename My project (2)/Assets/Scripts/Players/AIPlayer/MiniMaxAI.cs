@@ -54,8 +54,14 @@ public class MiniMaxAI : AbstractAIPlayer
         score = 0;
         bestBoard = null;
         amount = 0;
+
+        float timeBefore = Time.realtimeSinceStartup;
+        
         SearchingMethod(GameBoard.Instance.chessBoardPositions, depth, side);
 
+        float timeAfter = Time.realtimeSinceStartup;
+
+        float timeTotal = timeAfter - timeBefore;
 
         if (bestBoard == null)
         {
@@ -67,6 +73,9 @@ public class MiniMaxAI : AbstractAIPlayer
 
 
         GameBoard.Instance.ChangeBoard(bestBoard);
+
+
+        SaveData.Instance.SaveDataToFile(GameStateManager.Instance.GetTurn(), amount, timeTotal, score, side);
     }
 
 

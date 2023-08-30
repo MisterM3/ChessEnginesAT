@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance { get; private set; }
@@ -13,8 +15,15 @@ public class GameStateManager : MonoBehaviour
 
     [SerializeField] int turn;
 
+    [SerializeField] int iteration;
+
     [SerializeField] AbstractPlayer whitePlayer;
     [SerializeField] AbstractPlayer blackPlayer;
+
+
+
+    [SerializeField] int maxTurn;
+    [SerializeField] int maxIterations;
 
 
 
@@ -29,6 +38,8 @@ public class GameStateManager : MonoBehaviour
 
         Instance = this;
 
+        turn = 1;
+        iteration = 1;
         
     }
 
@@ -38,38 +49,31 @@ public class GameStateManager : MonoBehaviour
 
     private void Update()
     {
-      //  if (cooldown < 0)
-        
-             // if (Input.GetKeyDown(KeyCode.T))
-           //   {  
-            MakeTurn();
-            //     MakeTurn();
-            
-         //   cooldown = timer;
-        
-        //cooldown -= Time.deltaTime;
-    }
-
-    /*
-    public bool InCheck(Pieces[,] board, Vector2Int GridPosition, bool isWhite)
-    {
-
-        foreach (Pieces isKing in board)
+        if (iteration > maxIterations)
         {
-            if (isKing is King && isKing.colourPiece == isWhite)
-            {
-                King king = (King)isKing;
-
-                return king.InCheck();
-            }
+            Debug.Log("WE DONE ERE!!!");
+            return;
+        }
+        if (turn > maxTurn)
+        {
+            ResetGame();
+            return;
         }
 
-        Debug.LogError("I hate this");
-       return false;
+       MakeTurn();
 
     }
 
-    */
+    private void ResetGame()
+    {
+        SaveData.Instance.SaveWhoWonToFile(GameBoard.Instance.chessBoardPositions);
+        iteration++;
+        isWhiteTurn = true;
+        GameBoard.Instance.ResetGame();
+        turn = 1;
+    }
+
+
 
     public King getKing(bool isWhite)
     {
@@ -77,8 +81,13 @@ public class GameStateManager : MonoBehaviour
         else return blackKing;
     }
 
+    public int GetTurn()
+    {
+        return turn;
+    }
 
-    public bool IsWhiteTurn()
+
+    public bool GetIsWhiteTurn()
     {
         return isWhiteTurn;
     }
@@ -86,9 +95,12 @@ public class GameStateManager : MonoBehaviour
     public void NextTurn()
     {
         isWhiteTurn = !isWhiteTurn;
-        turn++;
-     //   MakeTurn();
 
+        if (isWhiteTurn)
+        {
+            SaveData.Instance.SaveScoreToFile(turn, GameBoard.Instance.chessBoardPositions);
+            turn++;
+        }
     }
 
     public void MakeTurn()

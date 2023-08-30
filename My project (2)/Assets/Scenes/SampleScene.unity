@@ -494,6 +494,8 @@ GameObject:
   m_Component:
   - component: {fileID: 463069225}
   - component: {fileID: 463069224}
+  - component: {fileID: 463069226}
+  - component: {fileID: 463069227}
   m_Layer: 0
   m_Name: GameStateManager
   m_TagString: Untagged
@@ -515,8 +517,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWhiteTurn: 1
   turn: 0
+  iteration: 0
   whitePlayer: {fileID: 1227054047}
   blackPlayer: {fileID: 977481155}
+  maxTurn: 40
+  maxIterations: 10
   timer: 1
   cooldown: 0
 --- !u!4 &463069225
@@ -534,6 +539,33 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &463069226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463069223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb38e0adcc150b74296267b37b70bcb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  folderNameBase: NegamaxSimplePruning-NegaMaxComplexPruning
+  folderNameWhite: NegamaxSimpleWhite
+  folderNameBlack: NegaMaxComplexBlack
+--- !u!114 &463069227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463069223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c5719fc0f1364b40a55f7cf17dc0aa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &744211248
 GameObject:
   m_ObjectHideFlags: 0
