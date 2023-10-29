@@ -29,8 +29,13 @@ public class SimpleEvaluation : MonoBehaviour, IEvaluation
 
 
         }
+        Debug.Log("__________");
+        Debug.Log(score);
+        Debug.Log(scoreMoves);
+        Debug.Log("__________");
 
-        scoreMoves /= 4;
+        score *= 10;
+        //scoreMoves /= 10;
 
         score += scoreMoves;
 

@@ -154,7 +154,7 @@ public class MonteCarloTreeSearchAI : AbstractAIPlayer
         return bestNode.GetBoard();
     }
 
-    public override int SearchingMethod(ChessBoard boardState, int depth, ColourChessSide side)
+    public override int SearchingMethod(ChessBoard boardState, int depth, ColourChessSide side, out ChessBoard bestBoard)
     {
         throw new System.NotImplementedException();
 

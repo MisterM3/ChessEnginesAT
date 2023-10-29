@@ -28,7 +28,7 @@ public abstract class AbstractAIPlayer : AbstractPlayer
 
 
     //Looks horrendious remake if possible
-    public abstract int SearchingMethod(ChessBoard boardState, int depth, ColourChessSide side);
+    public abstract int SearchingMethod(ChessBoard boardState, int depth, ColourChessSide side, out ChessBoard bestBoard);
 
 
     public abstract int EvaluateBoard(ChessBoard boardState);
