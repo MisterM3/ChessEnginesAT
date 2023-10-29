@@ -518,10 +518,10 @@ MonoBehaviour:
   isWhiteTurn: 1
   turn: 0
   iteration: 0
-  whitePlayer: {fileID: 1227054047}
-  blackPlayer: {fileID: 977481155}
+  whitePlayer: {fileID: 1227054051}
+  blackPlayer: {fileID: 977481158}
   maxTurn: 40
-  maxIterations: 10
+  maxIterations: 25
   timer: 1
   cooldown: 0
 --- !u!4 &463069225
@@ -551,9 +551,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb38e0adcc150b74296267b37b70bcb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  folderNameBase: NegamaxSimplePruning-NegaMaxComplexPruning
-  folderNameWhite: NegamaxSimpleWhite
-  folderNameBlack: NegaMaxComplexBlack
+  folderNameBase: NegamaxSimple-NegaMaxSimplePruning(ReverseTest)
+  folderNameWhite: NegamaxSimplePruning
+  folderNameBlack: NegaMaxSimpleBlackPruning
 --- !u!114 &463069227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -780,6 +780,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 977481156}
+  - component: {fileID: 977481158}
   - component: {fileID: 977481155}
   - component: {fileID: 977481157}
   m_Layer: 0
@@ -796,13 +797,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 977481154}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa8bc5baa7bdc894aac727e5b5776fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  depth: 3
   side: 1
+  depth: 3
   pruning: 1
 --- !u!4 &977481156
 Transform:
@@ -828,9 +829,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 977481154}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d90764e4a65697459217f9cea0183d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 0c5719fc0f1364b40a55f7cf17dc0aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &977481158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977481154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d51604c5b3202fc4ebfa61cbea16bfaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  side: 1
+  depth: 400
+  amountMovesSimulation: 5
 --- !u!1 &1227054046
 GameObject:
   m_ObjectHideFlags: 0
@@ -840,8 +856,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1227054048}
-  - component: {fileID: 1227054047}
   - component: {fileID: 1227054049}
+  - component: {fileID: 1227054051}
+  - component: {fileID: 1227054047}
   - component: {fileID: 1227054050}
   m_Layer: 0
   m_Name: WhitePlayer
@@ -857,14 +874,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1227054046}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa8bc5baa7bdc894aac727e5b5776fcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  depth: 3
   side: 0
-  pruning: 1
+  depth: 3
+  pruning: 0
 --- !u!4 &1227054048
 Transform:
   m_ObjectHideFlags: 0
@@ -907,6 +924,21 @@ MonoBehaviour:
   visual: {fileID: 0}
   colourSide: 0
   isWhite: 1
+--- !u!114 &1227054051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1227054046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d51604c5b3202fc4ebfa61cbea16bfaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  side: 0
+  depth: 400
+  amountMovesSimulation: 5
 --- !u!1 &1712425694
 GameObject:
   m_ObjectHideFlags: 0

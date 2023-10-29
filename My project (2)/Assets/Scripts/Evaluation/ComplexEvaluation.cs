@@ -4,11 +4,16 @@ using UnityEngine;
 
 public class ComplexEvaluation : MonoBehaviour, IEvaluation
 {
+
+
+
+
     public int Evaluate(ChessBoard boardToEvaluate)
     {
 
         int score = 0;
         int scoreMoves = 0;
+        int scoreMiddleAttack = 0;
 
 
         foreach (Pieces piece in boardToEvaluate.GetChessBoard())
@@ -21,11 +26,13 @@ public class ComplexEvaluation : MonoBehaviour, IEvaluation
             {
                 score += piece.GetValuePiece();
 
+
+
                 //Maybe also put in seperate amount and tweak division
-                if (pseudoMoves.Contains(new Vector2Int(3, 3))) scoreMoves++;
-                if (pseudoMoves.Contains(new Vector2Int(3, 4))) scoreMoves++;
-                if (pseudoMoves.Contains(new Vector2Int(4, 3))) scoreMoves++;
-                if (pseudoMoves.Contains(new Vector2Int(4, 4))) scoreMoves++;
+                if (pseudoMoves.Contains(new Vector2Int(3, 3))) scoreMiddleAttack++;
+                if (pseudoMoves.Contains(new Vector2Int(3, 4))) scoreMiddleAttack++;
+                if (pseudoMoves.Contains(new Vector2Int(4, 3))) scoreMiddleAttack++;
+                if (pseudoMoves.Contains(new Vector2Int(4, 4))) scoreMiddleAttack++;
 
                 scoreMoves += pseudoMoves.Count;
             }
@@ -34,10 +41,10 @@ public class ComplexEvaluation : MonoBehaviour, IEvaluation
                 score -= piece.GetValuePiece();
                 scoreMoves -= piece.GetPseudoLegalMoves().Count;
 
-                if (pseudoMoves.Contains(new Vector2Int(3, 3))) scoreMoves--;
-                if (pseudoMoves.Contains(new Vector2Int(3, 4))) scoreMoves--;
-                if (pseudoMoves.Contains(new Vector2Int(4, 3))) scoreMoves--;
-                if (pseudoMoves.Contains(new Vector2Int(4, 4))) scoreMoves--;
+                if (pseudoMoves.Contains(new Vector2Int(3, 3))) scoreMiddleAttack--;
+                if (pseudoMoves.Contains(new Vector2Int(3, 4))) scoreMiddleAttack--;
+                if (pseudoMoves.Contains(new Vector2Int(4, 3))) scoreMiddleAttack--;
+                if (pseudoMoves.Contains(new Vector2Int(4, 4))) scoreMiddleAttack--;
             }
 
 
@@ -48,7 +55,10 @@ public class ComplexEvaluation : MonoBehaviour, IEvaluation
 
         scoreMoves /= 4;
 
+        scoreMiddleAttack /= 6;
+
         score += scoreMoves;
+        score += scoreMiddleAttack;
 
         return score;
     }

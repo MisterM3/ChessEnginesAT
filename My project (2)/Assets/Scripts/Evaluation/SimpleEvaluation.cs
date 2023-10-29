@@ -10,6 +10,7 @@ public class SimpleEvaluation : MonoBehaviour, IEvaluation
         int score = 0;
         int scoreMoves = 0;
 
+       // if (boardToEvaluate == null) return 0;
 
         foreach (Pieces piece in boardToEvaluate.GetChessBoard())
         {

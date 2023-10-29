@@ -6,6 +6,7 @@ public abstract class AbstractAIPlayer : AbstractPlayer
 {
     public IEvaluation evaluationMethodStragety;
 
+    [SerializeField] protected ColourChessSide side = ColourChessSide.Unassigned;
 
     //both connected (look into dictionary)
     protected List<Vector2Int> bestGridPosition;

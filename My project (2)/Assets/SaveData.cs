@@ -32,7 +32,7 @@ public class SaveData : MonoBehaviour
     }
 
     
-    public void SaveDataToFile(int turn, int amountBoards, float time, int score, ColourChessSide side)
+    public void SaveDataToFile(int turn, int amountBoards, float time, ColourChessSide side)
     {
 
         string folderName = folderNameBase;

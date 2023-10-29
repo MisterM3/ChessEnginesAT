@@ -7,7 +7,7 @@ public class MiniMaxAI : AbstractAIPlayer
 {
 
 
-    [SerializeField] protected ColourChessSide side = ColourChessSide.Unassigned;
+   // [SerializeField] protected ColourChessSide side = ColourChessSide.Unassigned;
 
     int score = 0;
 
@@ -75,7 +75,7 @@ public class MiniMaxAI : AbstractAIPlayer
         GameBoard.Instance.ChangeBoard(bestBoard);
 
 
-        SaveData.Instance.SaveDataToFile(GameStateManager.Instance.GetTurn(), amount, timeTotal, score, side);
+        SaveData.Instance.SaveDataToFile(GameStateManager.Instance.GetTurn(), amount, timeTotal, side);
     }
 
 
@@ -120,11 +120,12 @@ public class MiniMaxAI : AbstractAIPlayer
             if (moves == null || moves.Count == 0) continue;
             foreach (Vector2Int move in moves)
             {
-
                 ChessBoard newBoard = GetNewBoard(piece, boardState, move);
 
+                //Promotions
                 if (piece is Pawns)
                 {
+
                     if ((move.y == 7 && piece.colourPiece == ColourChessSide.White) || (move.y == 0 && piece.colourPiece == ColourChessSide.Black))
                     {
                         ChessBoard QueenPromotion = newBoard.CopyBoard();
@@ -152,9 +153,11 @@ public class MiniMaxAI : AbstractAIPlayer
                         specialBoards.Add(RookPromotion);
                         specialBoards.Add(KnightPromotion);
 
-
+                        continue;
                     }
+
                 }
+
 
 
                 amount++;
@@ -167,7 +170,6 @@ public class MiniMaxAI : AbstractAIPlayer
                 if (score > max)
                 {
                     max = score;
-                    Debug.Log(score);
 
                     if (pDepth == depth)
                     {
@@ -178,9 +180,9 @@ public class MiniMaxAI : AbstractAIPlayer
                 //Testing
                 if (score == max && pDepth == depth)
                 {
-                     int randomRange = Random.Range(0, 101);
+                    int randomRange = Random.Range(0, 101);
 
-                  //  Debug.Log(randomRange);
+                    //  Debug.Log(randomRange);
                     if (randomRange >= 50)
                     {
                         bestBoard = newBoard.CopyBoard();
@@ -194,6 +196,7 @@ public class MiniMaxAI : AbstractAIPlayer
                     if (alpha >= beta) break;
                 }
             }
+            
 
 
             List<ChessBoard> castling = boardState.GetCastlingMoves(side);
@@ -214,8 +217,8 @@ public class MiniMaxAI : AbstractAIPlayer
 
                 amount++;
 
-                if (side == ColourChessSide.White) score = -SearchingMethod(newBoard, pDepth - 1, ColourChessSide.Black);
-                else if (side == ColourChessSide.Black) score = -SearchingMethod(newBoard, pDepth - 1, ColourChessSide.White);
+                if (side == ColourChessSide.White) score = -SearchingMethod(newBoard, pDepth - 1, ColourChessSide.Black, - beta, -alpha);
+                else if (side == ColourChessSide.Black) score = -SearchingMethod(newBoard, pDepth - 1, ColourChessSide.White, -beta, -alpha);
 
 
                 if (score > max)
@@ -239,6 +242,13 @@ public class MiniMaxAI : AbstractAIPlayer
                     {
                         bestBoard = newBoard.CopyBoard();
                     }
+                }
+
+                if (pruning)
+                {
+                    alpha = Mathf.Max(alpha, max);
+
+                    if (alpha >= beta) break;
                 }
             }
         }
