@@ -803,7 +803,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   side: 1
-  depth: 3
+  depth: 1
   pruning: 1
 --- !u!4 &977481156
 Transform:
@@ -856,10 +856,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1227054048}
-  - component: {fileID: 1227054049}
   - component: {fileID: 1227054047}
   - component: {fileID: 1227054051}
   - component: {fileID: 1227054050}
+  - component: {fileID: 1227054049}
   m_Layer: 0
   m_Name: WhitePlayer
   m_TagString: Untagged
@@ -880,7 +880,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   side: 0
-  depth: 3
+  depth: 1
   pruning: 1
 --- !u!4 &1227054048
 Transform:

@@ -53,9 +53,12 @@ public class ComplexEvaluation : MonoBehaviour, IEvaluation
 
         }
 
-        scoreMoves /= 4;
 
-        scoreMiddleAttack /= 6;
+        score *= 30;
+
+        scoreMoves *= 2;
+
+       // scoreMiddleAttack /= 6;
 
         score += scoreMoves;
         score += scoreMiddleAttack;

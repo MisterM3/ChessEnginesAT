@@ -89,7 +89,7 @@ public class MiniMaxAI : AbstractAIPlayer
     }
 
 
-    public int SearchingMethod(ChessBoard boardState, int pDepth, ColourChessSide side, int alpha, int beta, out ChessBoard bestBoard)
+    public int SearchingMethod(ChessBoard boardState, int pDepth, ColourChessSide pSide, int alpha, int beta, out ChessBoard bestBoard)
     {
 
        // Debug.Log(depth);
@@ -101,15 +101,17 @@ public class MiniMaxAI : AbstractAIPlayer
         {
             bestBoard = boardState;
 
-            if (side == ColourChessSide.White)
+
+            if (pSide == ColourChessSide.White)
             {
                 return EvaluateBoard(boardState);
             }
             else return -1 * EvaluateBoard(boardState);
+            //else return -1 * EvaluateBoard(boardState);
 
         }
 
-        
+
 
 
         List<ChessBoard> childBoardNodes = new();
@@ -122,7 +124,7 @@ public class MiniMaxAI : AbstractAIPlayer
             if (piece == null) continue;
             
             //Pieces allowed to move in current depth (ReWrite)
-            if (piece.colourPiece != side) continue;
+            if (piece.colourPiece != pSide) continue;
 
             List<Vector2Int> moves = piece.GetLegalMoves();
 
@@ -176,7 +178,7 @@ public class MiniMaxAI : AbstractAIPlayer
 
             
 
-            List<ChessBoard> castling = boardState.GetCastlingMoves(side);
+            List<ChessBoard> castling = boardState.GetCastlingMoves(pSide);
 
             if (castling != null && castling.Count != 0)
             {
@@ -197,19 +199,25 @@ public class MiniMaxAI : AbstractAIPlayer
         {
             newBestBoard = boardState;
 
-            if (side == ColourChessSide.White)
+
+            if (pSide == ColourChessSide.White)
             {
                 return EvaluateBoard(boardState);
             }
-            else return -1 * EvaluateBoard(boardState);
+            else return -1 *  EvaluateBoard(boardState);
+            
         }
-        
 
-      //  Debug.Log(amount);
-       // Debug.Log(childBoardNodes.Count);
-       // Debug.Log(depth);
+
+        //  Debug.Log(amount);
+        // Debug.Log(childBoardNodes.Count);
+        // Debug.Log(depth);
 
         //Use childnodes for new nodes
+
+
+        List<ChessBoard> bestChessBoards = new();
+
         foreach (ChessBoard board in childBoardNodes)
         {
 
@@ -219,8 +227,8 @@ public class MiniMaxAI : AbstractAIPlayer
 
             amount++;
 
-            if (side == ColourChessSide.White) sideNewBoard = ColourChessSide.Black;
-            else if (side == ColourChessSide.Black) sideNewBoard = ColourChessSide.White;
+            if (pSide == ColourChessSide.White) sideNewBoard = ColourChessSide.Black;
+            else if (pSide == ColourChessSide.Black) sideNewBoard = ColourChessSide.White;
             else sideNewBoard = ColourChessSide.Unassigned;
 
            // Debug.Log(sideNewBoard);
@@ -234,21 +242,14 @@ public class MiniMaxAI : AbstractAIPlayer
             {
                 newBestBoard = newBoard;
                 value = newValue;
+                bestChessBoards.Clear();
 
                 if (pDepth == depth) testBoard = newBestBoard;
             }
 
             if (newValue == value)
             {
-                int random = Random.Range(0, 101);
-
-                if (random >= 50)
-                {
-                    newBestBoard = newBoard;
-                    value = newValue;
-
-                    if (pDepth == depth) testBoard = newBestBoard;
-                }
+                bestChessBoards.Add(newBoard);
             }
 
             
@@ -259,6 +260,14 @@ public class MiniMaxAI : AbstractAIPlayer
                 alpha = Mathf.Max(alpha, value);
 
                 if (alpha >= beta) break;
+            }
+        }
+
+        if (pDepth == depth)
+        {
+            if (bestChessBoards.Count != 0)
+            {
+                testBoard = bestChessBoards[Random.Range(0, bestChessBoards.Count)];
             }
         }
 

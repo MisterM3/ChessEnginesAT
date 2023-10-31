@@ -1,4 +1,4 @@
-;White;White;Black;Black;Draw;Draw;Draw;Draw;Draw;Black;Black;White
+;White;White;Black;Black;Draw;Draw;Draw;Draw;Draw;Black;Black;White;White
 
 
 
