@@ -10,6 +10,7 @@ public class SimpleEvaluation : MonoBehaviour, IEvaluation
         int score = 0;
         int scoreMoves = 0;
 
+       // if (boardToEvaluate == null) return 0;
 
         foreach (Pieces piece in boardToEvaluate.GetChessBoard())
         {
@@ -28,8 +29,13 @@ public class SimpleEvaluation : MonoBehaviour, IEvaluation
 
 
         }
+    //    Debug.Log("__________");
+    //    Debug.Log(score);
+    //    Debug.Log(scoreMoves);
+    //    Debug.Log("__________");
 
-        scoreMoves /= 4;
+        score *= 5;
+        //scoreMoves /= 10;
 
         score += scoreMoves;
 

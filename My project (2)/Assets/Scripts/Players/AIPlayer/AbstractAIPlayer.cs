@@ -6,6 +6,7 @@ public abstract class AbstractAIPlayer : AbstractPlayer
 {
     public IEvaluation evaluationMethodStragety;
 
+    [SerializeField] protected ColourChessSide side = ColourChessSide.Unassigned;
 
     //both connected (look into dictionary)
     protected List<Vector2Int> bestGridPosition;
@@ -21,13 +22,12 @@ public abstract class AbstractAIPlayer : AbstractPlayer
         bestPieceToMove = new List<Pieces>();
 
         evaluationMethodStragety = GetComponent<IEvaluation>();
-        Debug.LogError(evaluationMethodStragety);
     }
 
 
 
     //Looks horrendious remake if possible
-    public abstract int SearchingMethod(ChessBoard boardState, int depth, ColourChessSide side);
+    public abstract int SearchingMethod(ChessBoard boardState, int depth, ColourChessSide side, out ChessBoard bestBoard);
 
 
     public abstract int EvaluateBoard(ChessBoard boardState);

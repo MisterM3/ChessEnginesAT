@@ -29,11 +29,16 @@ public class GameBoard : MonoBehaviour
         }
 
         Instance = this;
+        ResetGame();
+    }
+
+    public void ResetGame()
+    {
         chessBoardPositions = new ChessBoard();
 
         SetupBoard();
     }
-    
+
     public void SetupBoard()
     {
         for (int x = 0; x < GameBoard.SIZE; x++)

@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance { get; private set; }
@@ -13,9 +15,18 @@ public class GameStateManager : MonoBehaviour
 
     [SerializeField] int turn;
 
+    [SerializeField] int iteration;
+
     [SerializeField] AbstractPlayer whitePlayer;
     [SerializeField] AbstractPlayer blackPlayer;
 
+
+
+    [SerializeField] int maxTurn;
+    [SerializeField] int maxIterations;
+
+    [SerializeField] GameSwitcher gameSwitcher;
+    [SerializeField] SaveData saveData;
 
 
     // Start is called before the first frame update
@@ -29,7 +40,32 @@ public class GameStateManager : MonoBehaviour
 
         Instance = this;
 
+        turn = 1;
+        iteration = 1;
+
+        if (whitePlayer == null || blackPlayer == null)
+        {
+            NextGame();
+        }
         
+    }
+
+    private void NextGame()
+    {
+        GameSwitch gameSwitch = gameSwitcher.NextGame();
+
+        if (gameSwitch.whitePlayer == null || gameSwitch.blackPlayer == null)
+        {
+            return;
+        }
+
+        whitePlayer = gameSwitch.whitePlayer;
+        blackPlayer = gameSwitch.blackPlayer;
+        maxIterations = gameSwitch.amountGames;
+
+        saveData.folderNameBase = gameSwitch.folderName;
+        saveData.folderNameWhite = gameSwitch.whiteName;
+        saveData.folderNameBlack = gameSwitch.blackName;
     }
 
 
@@ -38,38 +74,44 @@ public class GameStateManager : MonoBehaviour
 
     private void Update()
     {
-      //  if (cooldown < 0)
-        
-             // if (Input.GetKeyDown(KeyCode.T))
-           //   {  
-            MakeTurn();
-            //     MakeTurn();
-            
-         //   cooldown = timer;
-        
-        //cooldown -= Time.deltaTime;
-    }
 
-    /*
-    public bool InCheck(Pieces[,] board, Vector2Int GridPosition, bool isWhite)
-    {
-
-        foreach (Pieces isKing in board)
+        if (whitePlayer == null || blackPlayer == null)
         {
-            if (isKing is King && isKing.colourPiece == isWhite)
-            {
-                King king = (King)isKing;
-
-                return king.InCheck();
-            }
+            return;
         }
 
-        Debug.LogError("I hate this");
-       return false;
+        if (iteration > maxIterations)
+        {
+            Debug.Log("WE DONE With this one!!!");
+            NextGame();
+            turn = 1;
+            iteration = 1;
+            isWhiteTurn = true;
+            GameBoard.Instance.ResetGame();
+            return;
+        }
+        if (turn > maxTurn)
+        {
+            ResetGame();
+            return;
+        }
+
+
+       // if (!Input.GetKeyDown(KeyCode.T)) return;
+       MakeTurn();
 
     }
 
-    */
+    private void ResetGame()
+    {
+        SaveData.Instance.SaveWhoWonToFile(GameBoard.Instance.chessBoardPositions);
+        iteration++;
+        isWhiteTurn = true;
+        GameBoard.Instance.ResetGame();
+        turn = 1;
+    }
+
+
 
     public King getKing(bool isWhite)
     {
@@ -77,8 +119,13 @@ public class GameStateManager : MonoBehaviour
         else return blackKing;
     }
 
+    public int GetTurn()
+    {
+        return turn;
+    }
 
-    public bool IsWhiteTurn()
+
+    public bool GetIsWhiteTurn()
     {
         return isWhiteTurn;
     }
@@ -86,9 +133,12 @@ public class GameStateManager : MonoBehaviour
     public void NextTurn()
     {
         isWhiteTurn = !isWhiteTurn;
-        turn++;
-     //   MakeTurn();
 
+        if (isWhiteTurn)
+        {
+            SaveData.Instance.SaveScoreToFile(turn, GameBoard.Instance.chessBoardPositions);
+            turn++;
+        }
     }
 
     public void MakeTurn()
