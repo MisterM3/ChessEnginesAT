@@ -114,13 +114,13 @@ public class MonteCarloTreeSearchAI : AbstractAIPlayer
             return; ;
         }
 
-        Debug.Log($"Amount of moves: {amount}");
+     //   Debug.Log($"Amount of moves: {amount}");
 
 
         GameBoard.Instance.ChangeBoard(bestBoard);
 
 
-       // SaveData.Instance.SaveDataToFile(GameStateManager.Instance.GetTurn(), amount, timeTotal, side);
+        SaveData.Instance.SaveDataToFile(GameStateManager.Instance.GetTurn(), amount, timeTotal, side);
 
     }
 
@@ -141,7 +141,7 @@ public class MonteCarloTreeSearchAI : AbstractAIPlayer
 
             
 
-            Debug.Log("Score: " + score);
+           // Debug.Log("Score: " + score);
             if (score > bestScore)
             {
                 bestScore = score;
@@ -150,7 +150,7 @@ public class MonteCarloTreeSearchAI : AbstractAIPlayer
         }
 
 
-        Debug.LogWarning(bestScore);
+     //   Debug.LogWarning(bestScore);
         return bestNode.GetBoard();
     }
 
@@ -225,11 +225,11 @@ public class MonteCarloTreeSearchAI : AbstractAIPlayer
         float value = (wi / ni) + c * Mathf.Sqrt((Mathf.Log(Ni) / ni));
 
 
-        Debug.Log(wi);
+      //  Debug.Log(wi);
 
-        Debug.Log(ni);
+     //   Debug.Log(ni);
 
-        Debug.Log(wi / ni);
+      //  Debug.Log(wi / ni);
 
 
         return value;
@@ -465,7 +465,7 @@ public class MonteCarloTreeSearchAI : AbstractAIPlayer
         }
 
 
-        Debug.Log(allChildBoards.Count);
+        //Debug.Log(allChildBoards.Count);
 
         if (allChildBoards == null || allChildBoards.Count == 0) return null;
 
@@ -481,7 +481,7 @@ public class MonteCarloTreeSearchAI : AbstractAIPlayer
         if (node == null) return;
 
 
-        Debug.LogWarning("SCore end:" + result);
+       // Debug.LogWarning("SCore end:" + result);
 
         node.UpdateWinLoss(result);
 

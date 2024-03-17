@@ -22,7 +22,6 @@ public abstract class AbstractAIPlayer : AbstractPlayer
         bestPieceToMove = new List<Pieces>();
 
         evaluationMethodStragety = GetComponent<IEvaluation>();
-        Debug.LogError(evaluationMethodStragety);
     }
 
 

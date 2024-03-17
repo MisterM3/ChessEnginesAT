@@ -72,8 +72,8 @@ public class MiniMaxAI : AbstractAIPlayer
             return; 
         }
 
-        Debug.Log($"Amount of moves: {amount}");
-        Debug.Log($"Best score: {score}");
+   //     Debug.Log($"Amount of moves: {amount}");
+    //    Debug.Log($"Best score: {score}");
 
         //  GameBoard.Instance.ChangeBoard(bestBoard);
         GameBoard.Instance.ChangeBoard(testBoard);
@@ -106,7 +106,7 @@ public class MiniMaxAI : AbstractAIPlayer
             {
                 return EvaluateBoard(boardState);
             }
-            else return -1 * EvaluateBoard(boardState);
+            else return -EvaluateBoard(boardState);
             //else return -1 * EvaluateBoard(boardState);
 
         }
@@ -204,7 +204,7 @@ public class MiniMaxAI : AbstractAIPlayer
             {
                 return EvaluateBoard(boardState);
             }
-            else return -1 *  EvaluateBoard(boardState);
+            else return -EvaluateBoard(boardState);
             
         }
 

@@ -25,6 +25,8 @@ public class GameStateManager : MonoBehaviour
     [SerializeField] int maxTurn;
     [SerializeField] int maxIterations;
 
+    [SerializeField] GameSwitcher gameSwitcher;
+    [SerializeField] SaveData saveData;
 
 
     // Start is called before the first frame update
@@ -40,7 +42,30 @@ public class GameStateManager : MonoBehaviour
 
         turn = 1;
         iteration = 1;
+
+        if (whitePlayer == null || blackPlayer == null)
+        {
+            NextGame();
+        }
         
+    }
+
+    private void NextGame()
+    {
+        GameSwitch gameSwitch = gameSwitcher.NextGame();
+
+        if (gameSwitch.whitePlayer == null || gameSwitch.blackPlayer == null)
+        {
+            return;
+        }
+
+        whitePlayer = gameSwitch.whitePlayer;
+        blackPlayer = gameSwitch.blackPlayer;
+        maxIterations = gameSwitch.amountGames;
+
+        saveData.folderNameBase = gameSwitch.folderName;
+        saveData.folderNameWhite = gameSwitch.whiteName;
+        saveData.folderNameBlack = gameSwitch.blackName;
     }
 
 
@@ -49,9 +74,20 @@ public class GameStateManager : MonoBehaviour
 
     private void Update()
     {
+
+        if (whitePlayer == null || blackPlayer == null)
+        {
+            return;
+        }
+
         if (iteration > maxIterations)
         {
-            Debug.Log("WE DONE ERE!!!");
+            Debug.Log("WE DONE With this one!!!");
+            NextGame();
+            turn = 1;
+            iteration = 1;
+            isWhiteTurn = true;
+            GameBoard.Instance.ResetGame();
             return;
         }
         if (turn > maxTurn)
@@ -60,6 +96,8 @@ public class GameStateManager : MonoBehaviour
             return;
         }
 
+
+       // if (!Input.GetKeyDown(KeyCode.T)) return;
        MakeTurn();
 
     }

@@ -8,11 +8,11 @@ public class SaveData : MonoBehaviour
 
     public static SaveData Instance;
 
-    [SerializeField] string folderNameBase;
+    [SerializeField] public string folderNameBase;
 
-    [SerializeField] string folderNameWhite;
+    [SerializeField] public string folderNameWhite;
 
-    [SerializeField] string folderNameBlack;
+    [SerializeField] public string folderNameBlack;
 
     private SimpleEvaluation eval;
 

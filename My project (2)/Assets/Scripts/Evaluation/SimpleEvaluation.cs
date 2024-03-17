@@ -29,17 +29,17 @@ public class SimpleEvaluation : MonoBehaviour, IEvaluation
 
 
         }
-        Debug.Log("__________");
-        Debug.Log(score);
-        Debug.Log(scoreMoves);
-        Debug.Log("__________");
+    //    Debug.Log("__________");
+    //    Debug.Log(score);
+    //    Debug.Log(scoreMoves);
+    //    Debug.Log("__________");
 
-        score *= 15;
+        score *= 5;
         //scoreMoves /= 10;
 
-        //score += scoreMoves;
+        score += scoreMoves;
 
-        return score * 1;
+        return score;
     }
 
 }
