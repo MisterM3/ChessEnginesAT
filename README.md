@@ -4,4 +4,4 @@ This project consists of a unity project with a chessboard. Differnt AI's can be
 
 AI's:
 Monte Carlo Tree Search,
-Minimax
+Minimax (with and without alpha beta pruning)
